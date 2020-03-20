@@ -35,6 +35,13 @@ export TURTLEBOT3_MODEL=waffle
 
 添加以上环境变量后，每次打开终端会出现配置好的路径，忽略即可。
 
+
+## 安装3Dlidar插件
+
+```
+sudo apt-get install ros-melodic-velodyne-gazebo-plugins
+```
+
 ## 仿真功能包编译
  
  请确保Prometheus项目中其他相应的功能包均已编译通过，然后编译prometheus_gazebo功能包
