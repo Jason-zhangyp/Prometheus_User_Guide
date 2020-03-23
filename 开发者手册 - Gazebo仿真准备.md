@@ -25,11 +25,11 @@ sudo gedit ~/.bashrc
 在打开的文件中手动添加（以下若已添加过的命令，请勿重复添加）
 ```
 source ${your prometheus path}/Prometheus/devel/setup.bash
+export GAZEBO_PLUGIN_PATH=$GAZEBO_PLUGIN_PATH:${your prometheus path}/Prometheus/devel/lib
+export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:${your prometheus path}/Prometheus/Simulator/gazebo_simulator/models
 source ${your px4 path}/Firmware_v110/Tools/setup_gazebo.bash ${your px4 path}/Firmware_v110 ${your px4 path}/Firmware_v110/build/px4_sitl_default
 export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:${your px4 path}/Firmware_v110
 export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:${your px4 path}/Firmware_v110/Tools/sitl_gazebo
-export GAZEBO_MODEL_PATH=:${your prometheus path}/Prometheus/Simulator/gazebo_simulator/models:~/gazebo_models
-export TURTLEBOT3_MODEL=waffle
 ```
 其中`${your prometheus path}`为Prometheus项目路径，`${your px4 path}`为安装PX4固件的路径。
 
