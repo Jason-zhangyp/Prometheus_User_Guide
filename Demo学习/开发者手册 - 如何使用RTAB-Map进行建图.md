@@ -15,7 +15,7 @@
  - 如何使用RtabMap算法进行GAZEBO仿真？
  - 如何进行真实的实验？
 
-## RTAB-Map包的使用
+## RTAB-Map的使用
 
 ### RTAB-Map介绍
 
@@ -64,15 +64,13 @@ RTAB-Map可支持不同操作系统的安装，包括Ubuntu、Mac OS 和Windows�
 
 #### 同时也可以对RTAB-Map进行源码编译，详见[编译](https://github.com/introlab/rtabmap_ros#rtabmap_ros-)
 
-### RTAB-Map的运行
+### RTAB-Map的ROS节点
 
-对于RTAB-MAP在ROS下的运行，详细可阅读[wiki](http://wiki.ros.org/rtabmap_ros)。本部分仅对主要的launch文件和node的运行及相关参数进行说明。
+对于RTAB-MAP在ROS下的运行，详细可阅读[wiki](http://wiki.ros.org/rtabmap_ros)，本部分仅对主要的node的进行说明。
 
-#### Node
+#### **rtabmap**：
 
-**rtabmap**：
-
-这是RTAM-Map的ROS包的核心节点，包含了RTAB-Map的核心库，地图的增量式构建、优化和回环检测就是在这个节点内进行的。通过订阅cloud_map，grid_map（proj_map）的话题，可以获得三维点云和二维占据地图。另外，RTAB-Map的数据库存储在路径"~/.ros/rtabmap.db"下，可以通过指令"--delete_db_on_start"在每次启动时进行删除，否则将会加载前一次的数据库。
+这是RTAM-Map的ROS包的核心节点，包含了RTAB-Map的核心库，地图的增量式构建、地图优化和回环检测就是在这个节点内进行的。通过订阅cloud_map，grid_map（proj_map）的话题，可以获得三维点云和二维占据地图。另外，RTAB-Map的数据库存储在路径"~/.ros/rtabmap.db"下，可以通过指令"--delete_db_on_start"在每次启动时进行删除，否则将会加载前一次的数据库。
 
 rtabmap这个节点的所有参数可以通过参数头文件[Parameters.h](https://github.com/introlab/rtabmap/blob/master/corelib/include/rtabmap/core/Parameters.h#L161)查看，或者通过运行以下命令在terminal查看：
 
@@ -95,30 +93,91 @@ $ rosrun rtabmap_ros rtabmap --params
 
 ##### 订阅话题
 
-- 里程计：odom([nav_msgs/Odometry](http://docs.ros.org/api/nav_msgs/html/msg/Odometry.html)) 
+- 里程计：如果参数subscribe_depth或者参数subscribe_stereo是true的话，或者里程计坐标系odom_frame_id没有被设置的话，则需要订阅此里程计话题-odom([nav_msgs/Odometry](http://docs.ros.org/api/nav_msgs/html/msg/Odometry.html)) 
 
-- 图像：rgb/image ([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html)) ; rgb/camera_info ([sensor_msgs/CameraInfo](http://docs.ros.org/api/sensor_msgs/html/msg/CameraInfo.html)); depth/image([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html)) 
-- 
+- 图像：
 
-**rtabmapviz**
+  单目RGB图像：rgb/image ([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html)) 
 
-**rgbd_odometry**
+  单目RGB相机参数：rgb/camera_info ([sensor_msgs/CameraInfo](http://docs.ros.org/api/sensor_msgs/html/msg/CameraInfo.html));
 
-**stereo_odometry**
+  深度图像：depth/image([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html)) 
 
-**icp_odometry**
+  RGBD图像：rgbd_image([rtabmap_ros/RGBDImage](http://docs.ros.org/api/rtabmap_ros/html/msg/RGBDImage.html)) 
+
+- 激光：
+
+  激光扫描：scan ([sensor_msgs/LaserScan](http://docs.ros.org/api/sensor_msgs/html/msg/LaserScan.html)) 
+
+  激光点云：scan_cloud ([sensor_msgs/PointCloud2](http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html)) 
+
+- 双目：
+
+  左目矫正图像：left/image_rect ([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html)) 
+
+  左目相机信息：left/camera_info ([sensor_msgs/CameraInfo](http://docs.ros.org/api/sensor_msgs/html/msg/CameraInfo.html)) 
+
+  右目矫正图像：right/image_rect ([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html)) 
+
+  右目相机信息：right/camera_info ([sensor_msgs/CameraInfo](http://docs.ros.org/api/sensor_msgs/html/msg/CameraInfo.html)) 
+
+- 目标点信息：goal ([geometry_msgs/PoseStamped](http://docs.ros.org/api/geometry_msgs/html/msg/PoseStamped.html)) 用于规划全局路径
+
+##### 发布话题
+
+- 地图信息：
+
+  RTAM-Map系统信息：info([rtabmap_ros/Info](http://docs.ros.org/api/rtabmap_ros/html/msg/Info.html)) 	
+
+  地图数据：mapData ([rtabmap_ros/MapData](http://docs.ros.org/api/rtabmap_ros/html/msg/MapData.html)) 
+
+  地图的图：mapGraph ([rtabmap_ros/MapGraph](http://docs.ros.org/api/rtabmap_ros/html/msg/MapGraph.html))
+
+- 地图：
+
+  激光扫描建立的占据图：grid_map ([nav_msgs/OccupancyGrid](http://docs.ros.org/api/nav_msgs/html/msg/OccupancyGrid.html)) 
+
+  三维点云投影到地面上的占据图：proj_map ([nav_msgs/OccupancyGrid](http://docs.ros.org/api/nav_msgs/html/msg/OccupancyGrid.html)) 
+
+  三维点云图：cloud_map ([sensor_msgs/PointCloud2](http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html)) 
+
+  八叉树地图：octomap_full ([octomap_msgs/Octomap](http://docs.ros.org/api/octomap_msgs/html/msg/Octomap.html)) 
+
+  八叉树地图：octomap_binary ([octomap_msgs/Octomap](http://docs.ros.org/api/octomap_msgs/html/msg/Octomap.html)) 
+
+  八叉树中占据空间的点云图：octomap_occupied_space ([sensor_msgs/PointCloud2](http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html)) 
+
+  八叉树中障碍物的点云图octomap_obstacles ([sensor_msgs/PointCloud2](http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html)) 
+
+  八叉树中地面的点云图：octomap_ground ([sensor_msgs/PointCloud2](http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html)) 
+
+  八叉树中空白空间的点云图octomap_empty_space ([sensor_msgs/PointCloud2](http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html)) 
+
+  将八叉树投影到二维平面的占据图：octomap_grid ([nav_msgs/OccupancyGrid](http://docs.ros.org/api/nav_msgs/html/msg/OccupancyGrid.html)) 
+
+- 规划
+
+  RTAM-Map中有基于图的路径规划，但是不在本部分考虑范围内，就不详细介绍了
+
+##### 参数
+
+
+
+#### rtabmapviz
+
+该节点启动RTAB-Map的界面，可以认为和rviz有类似的功能，该功能可以选择不开启
+
+#### **rgbd_odometry**
+
+#### **stereo_odometry**
+
+#### **icp_odometry**
 
 **其他**
 
 #### Launch
 
 
-
-1、输入是双目
-2、输入是rgbd
-3、输入是。。。
-
-4、输出是什么。。。
 
 Rtabmap_ros代码的总体说明（有什么用，使用了什么算法之类的介绍文字）
 
