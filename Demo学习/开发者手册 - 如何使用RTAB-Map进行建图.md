@@ -169,11 +169,27 @@ $ rosrun rtabmap_ros rtabmap --params
 
 #### **rgbd_odometry**
 
+rgbd的里程计，通过在终端运行如下命令来查看输入参数：
+
+```
+$ rosrun rtabmap_ros rgbd_odometry --params
+```
+
 #### **stereo_odometry**
+
+双目的里程计，通过在终端运行如下命令来查看输入参数：
+
+```
+$ rosrun rtabmap_ros stereo_odometry --params
+```
 
 #### **icp_odometry**
 
-**其他**
+激光的里程计，使用icp的方法进行定位，通过在终端运行如下命令来查看输入参数
+
+```
+$ rosrun rtabmap_ros icp_odometry --params
+```
 
 #### Launch
 
