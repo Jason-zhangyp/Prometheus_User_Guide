@@ -40,8 +40,6 @@
 
 ![GizrVK.png](https://s1.ax1x.com/2020/03/27/GizrVK.png)
 
-##### 
-
 ### RTAB-Map安装
 
 RTAB-Map可支持不同操作系统的安装，包括Ubuntu、Mac OS 和Windows，同时支持ROS，详见[安装](https://github.com/introlab/rtabmap/wiki/Installation)，本项目主要使用了RTAB-Map的ROS包，因此仅对ROS下的安装进行说明，
@@ -201,19 +199,21 @@ Rtabmap_ros代码的总体说明（有什么用，使用了什么算法之类的
 
 （原理+订阅的topic+发布的topic+参数）
 
-
-
 ## RTAB-Map测试
 
-### 数据集测试
+本部分介绍RTAM-Map的测试，分为两部分，分别是使用双目进行建图和使用RGBD相机进行建图的测试，包含运行的方法，参数设置及结果演示。其中，双目的建图是在数据集下进行的；而RGBD的建图是使用realsense真机进行的测试。
 
-数据集建图demo（使用官网的提供的数据集（备注下载链接，如何跑数据集跑出来建图的效果）
+### 双目建图
 
-### 真机测试
+### 
 
-本教程会对使用RGB-D相机和双目相机进行建图的例子进行详细说明。
+### RGBD建图
 
+RGBD真实环境下建图使用了英特尔的realsense的d435i和t265进行建图，其中d435i为建图提供深度图，而t265则提供实时的位姿给RTAB-Map，以这二者作为输入，RTAB-Map会生成相应的地图。
 
+![GMhOD1.png](https://s1.ax1x.com/2020/03/31/GMhOD1.png)
+
+两个相机之间的连接，采用了英特尔官方的demo实现，使用3D打印制作了两个相机的安装基座，并给定了二者之间的坐标转换关系，具体的教程详见[Tracking and Depth](https://dev.intelrealsense.com/docs/depth-and-tracking-cameras-alignment)
 
 ## Gazebo仿真环境运行
 
