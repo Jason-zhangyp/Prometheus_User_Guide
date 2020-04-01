@@ -214,11 +214,79 @@ $ rosrun rtabmap_ros icp_odometry --params
 
 ## 3 RTAB-Map测试
 
-本部分介绍RTAM-Map的测试，分为两部分，分别是使用双目进行建图和使用RGBD相机进行建图的测试，包含运行的方法，参数设置及结果演示。其中，双目的建图是在数据集下进行的；而RGBD的建图是使用realsense真机进行的测试。
+本部分介绍RTAM-Map的测试，分为三部分，分别是使用双目进行建图; 使用RGBD相机进行建图的测试以及在仿真环境下的建图，包含运行的方法，参数设置及结果演示。其中，双目的建图是在数据集下进行的；而RGBD的建图是使用realsense真机进行的测试，仿真环境下使用的相机模型是D435i。
 
 ### 3.1 双目建图
 
+针对室外场景，RTAB-Map可以支持使用双目进行建图，下面介绍使用数据集的方式进行实现，参考官方教程[StereoMapping](http://wiki.ros.org/rtabmap_ros/Tutorials/StereoOutdoorMapping)。
 
+#### 3.1.1 配置
+
+[![GloYPx.md.jpg](https://s1.ax1x.com/2020/04/01/GloYPx.md.jpg)](https://imgchr.com/i/GloYPx)
+
+#### 3.1.2 ROS bags下载
+
+- [stereo_outdoorA.bag](https://docs.google.com/uc?export=download&confirm=ldd7&id=0B46akLGdg-uaOWtYT1ladldiS0U) 
+
+- [stereo_outdoorB.bag](https://docs.google.com/uc?export=download&confirm=5Ptp&id=0B46akLGdg-uaVEs2SGFzT3ZVSU0)
+
+#### 3.1.3 Launch
+
+```
+$ roslaunch rtabmap_ros demo_stereo_outdoor.launch
+$ rosbag play --clock stereo_outdoorA.bag
+[...]
+$ rosbag play --clock stereo_outdoorB.bag
+```
+
+详细的[demo_stereo_outdoor.launch](https://github.com/introlab/rtabmap_ros/blob/master/launch/demo/demo_stereo_outdoor.launch) 
+
+在双目的launch文件中，总共进行了三步，分别运行了stereo_image_proc对左右目图像作了去畸变处理:
+
+```
+   <group ns="/stereo_camera" >
+      <node pkg="nodelet" type="nodelet" name="stereo_nodelet"  args="manager"/>
+   
+      <node pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc">
+         <remap from="left/image_raw"    to="left/image_raw_throttle_relay"/>
+         <remap from="left/camera_info"  to="left/camera_info_throttle"/>
+         <remap from="right/image_raw"   to="right/image_raw_throttle_relay"/>
+         <remap from="right/camera_info" to="right/camera_info_throttle"/>
+         <param name="disparity_range" value="128"/>
+      </node>
+   </group>
+```
+
+运行双目里程计:
+
+```
+   <!-- Stereo Odometry -->   
+   <node pkg="rtabmap_ros" type="stereo_odometry" name="stereo_odometry" output="screen">
+	...
+   </node>
+```
+
+运行rtabmap建图：
+
+```
+   <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="--delete_db_on_start">
+    ...
+   </node>
+```
+
+运行窗口：
+
+```
+   <node if="$(arg rtabmapviz)" pkg="rtabmap_ros" type="rtabmapviz" name="rtabmapviz" args="-d $(find rtabmap_ros)/launch/config/rgbd_gui.ini" output="screen">
+   ...
+   </node>
+```
+
+#### 3.1.4 运行结果
+
+[![G1SSTf.md.png](https://s1.ax1x.com/2020/04/01/G1SSTf.md.png)](https://imgchr.com/i/G1SSTf)
+
+（地图保存方式待补充）
 
 ### 3.2 RGBD建图
 
@@ -270,11 +338,11 @@ roslaunch realsense2_camera rs_rtabmap.launch
 
 ![GQuqbD.gif](https://s1.ax1x.com/2020/03/31/GQuqbD.gif)
 
-#### 3.2.2 仿真环境下的建图
+### 3.3 仿真环境下的建图
 
-##### 仿真环境及传感器配置
+#### 3.3.1 仿真环境及传感器配置
 
-##### RTAB-Map仿真配置
+#### 3.3.2 RTAB-Map仿真配置
 
 
 
