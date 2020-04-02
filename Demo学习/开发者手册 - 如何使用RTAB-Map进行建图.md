@@ -16,6 +16,10 @@ memo:
 
    （原理+订阅的topic+发布的topic+参数）
 
+
+
+
+
 ### 相关launch文件介绍
 
 手持建图（在gazebo中使用我们自己的worlds，手动飞行建图的流程，刚好把obstacle那个建一个完整的图）
@@ -29,6 +33,20 @@ memo:
  - 在rviz可观察建图情况
 
  - 更多详细信息：演示视频
+
+   
+
+   topic
+
+   说明不需要slam
+
+   选择：数据集or真机 选择
+
+   rgbd数据集
+
+   more 图
+
+   参数+lanuch
 
    
 
@@ -341,6 +359,8 @@ roslaunch realsense2_camera rs_rtabmap.launch
 ### 3.3 仿真环境下的建图
 
 #### 3.3.1 仿真环境及传感器配置
+
+
 
 #### 3.3.2 RTAB-Map仿真配置
 
