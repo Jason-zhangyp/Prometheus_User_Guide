@@ -8,6 +8,7 @@ Gazebo仿真环境依赖PX4固件及sitl_gazebo包，因此需先安装PX4编译
 	 - 编译环境安装 ： [PX4手册 - getting_started](https://dev.px4.io/v1.10/en/setup/getting_started.html)
 	 - Gazebo仿真教程 ： [PX4手册 - gazebo simulation](https://dev.px4.io/v1.10/en/simulation/gazebo.html)
  - 	建议使用阿木实验室的专用PX4仓库：[Firmware_v110](https://github.com/amov-lab/Firmware_v110)
+ -  若使用官方PX4仓库，Prometheus部分功能会失效，需要修改后方能使用
  ```
  git clone https://github.com/amov-lab/Firmware_v110
  cd Firmware_v110
