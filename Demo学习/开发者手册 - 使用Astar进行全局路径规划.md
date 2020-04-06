@@ -1,14 +1,6 @@
-﻿# 使用Astar进行全局路径规划  
+# 使用Astar进行全局路径规划  
   
-
-本教程的目的：  
-
- - 让用户理解什么是全局路径规划？什么是Astar算法？
- - Astar算法的原理解释，相关参数解释
- - 如何使用Astar算法进行GAZEBO仿真？（三种情况：激光，RGBD，离线地图）
- - 如何进行真实的实验？
-  
-## 全局路径规划介绍
+## 全局路径规划
 
 #### 1) 全局算法和局部算法 
 > 全局路径规划是在已知的环境中，给机器人规划一条路径，路径规划的精度取决于环境获取的准确度，全局路径规划可以找到最优解，但是需要预先知道环境的准确信息，当环境发生变化，如出现未知障碍物时，该方法就无能为力了。它是一种事前规划，因此对机器人系统的实时计算能力要求不高，虽然规划结果是全局的、较优的，但是对环境模型的错误及噪声鲁棒性差。   
@@ -30,69 +22,90 @@
 
 
 
-## Astar算法介绍 （原理+订阅的topic+发布的topic+参数）
+## Astar算法程序介绍
 
-#### global_planner_node.cpp
-功能：  
-  生成主要node. 
+与算法相关的程序有	
+ - 主节点：`global_planner_node.cpp`
+ - 全局规划算法管理函数：`global_planning.cpp`
+ - A star算法：`A_star.cpp`
+ - 地图处理程序：`occupy_map.cpp`
+ - 轨迹可视化节点：`planning_visualization.cpp `
 
-#### global_planning.cpp  
-功能：  
-  全局规划的管理函数
-设置参数：   
-  nh.param("planning/safe_distance", safe_distance, 0.25)， 停止距离
-  接受topic:   
-  "/prometheus/planning/goal"， 目标
-  "/prometheus/planning/odom_world"， map坐标系下位资
-  "/prometheus/planning/global_pcl"， map坐标系下全局点云
-  发布topic: 
-  "/prometheus/planning/path_cmd"， A*生成的轨迹指令
-  "/prometheus/planning/stop_cmd"， 当前是否安全的状态指令
-  "/prometheus/planning/global_map_marker"， 显示地图
+**global_planning.cpp**
 
-#### A_star.cpp  
-功能：
-A*的算法实现
 参数：
-  nh.param("astar/resolution_astar", resolution_, 0.2);
-  nh.param("astar/lambda_heu", lambda_heu_, 2.0);
-  nh.param("astar/allocate_num", allocate_num_, 1000);
+- nh.param("planning/safe_distance", safe_distance, 0.25)， 停止距离
 
-#### occupy_map.cpp   
+订阅话题：  
+- "/prometheus/planning/odom_world" ，map坐标系下无人机位姿
+- "/prometheus/planning/global_pcl"， map坐标系下全局点云
+-  "/prometheus/planning/goal"，目标点坐标，目标点是在全局坐标系map下给出的 
+
+
+发布话题：
+ - "/prometheus/planning/path_cmd"， A_star生成的轨迹指令
+ - "/prometheus/planning/stop_cmd"， 当前是否安全的状态指令
+ - "/prometheus/planning/global_map_marker"， 地图可视化话题
+
+**A_star.cpp**
+
+参数：
+
+        nh.param("astar/resolution_astar", resolution_, 0.2);
+        nh.param("astar/lambda_heu", lambda_heu_, 2.0);
+        nh.param("astar/allocate_num", allocate_num_, 1000);
+
+**occupy_map.cpp**
+
 功能：  
-  1） 接受全局地图，进行膨胀处理。
-  2） 查询对应点在膨胀地图的状态。
+ - 接受全局地图，进行膨胀处理。
+ - 查询对应点在膨胀地图的状态。
 
-设置参数：    
-    nh.param("astar/resolution_astar", resolution_,  0.2);  地图分辨率   
-    nh.param("astar/inflate", inflate_,  0.3);  膨胀距离    
-    nh.param("map/map_size_x", map_size_3d_(0), 10.0);   地图大小    
-    nh.param("map/map_size_y", map_size_3d_(1), 10.0);  地图大小    
-    nh.param("map/map_size_z", map_size_3d_(2), 5.0);   地图高度    
-    nh.param("map/origin_x", origin_(0), -5.0);   地图起点   
-    nh.param("map/origin_y", origin_(1), -5.0);     
-    nh.param("map/origin_z", origin_(2), 0.0);    
-    nh.param("map/ceil_height_", ceil_height_, 4.9);  地图限高    
-    nh.param("map/floor_height_", floor_height_, 0.1); 地图限最低高     
+参数：    
+       
+        nh.param("astar/resolution_astar", resolution_,  0.2);  地图分辨率   
+        nh.param("astar/inflate", inflate_,  0.3);  膨胀距离    
+        nh.param("map/map_size_x", map_size_3d_(0), 10.0);   地图大小    
+        nh.param("map/map_size_y", map_size_3d_(1), 10.0);  地图大小    
+        nh.param("map/map_size_z", map_size_3d_(2), 5.0);   地图高度    
+        nh.param("map/origin_x", origin_(0), -5.0);   地图起点   
+        nh.param("map/origin_y", origin_(1), -5.0);     
+        nh.param("map/origin_z", origin_(2), 0.0);    
+        nh.param("map/ceil_height_", ceil_height_, 4.9);  地图限高    
+        nh.param("map/floor_height_", floor_height_, 0.1); 地图限最低高   
 
-#### planning_visualization.cpp   
-  功能：  
-  显示轨迹   
-  发布topic:   
-  “/planning_vis/trajectory”    
+
+**planning_visualization.cpp**
+
+发布topic:   `“/planning_vis/trajectory” `   
+
+
+## 全局规划算法任务程序
+**planning_mission.cpp**
+
+请查看局部规划算法文档中的介绍
+
+
 ## Gazebo仿真环境运行  
   
-  分三种情况来写（三种情况：激光，RGBD，离线地图），对应不同的指令及rviz设置    
-  怎么给goal，   
-
- - 运行launch文件  
-  `roslaunch prometheus_gazebo sitl_local_planner.launch`  
- - 在rviz中指定目标点  
- - 或通过终端输入目标点  
- - 更多详细信息：演示视频  
+  使用激光雷达作为传感器
+ - 运行launch文件（请查看launch文件参数说明，并进行调整）
+  		roslaunch prometheus_gazebo sitl_global_planning_3dlidar.launch 
+ - 在打开的rviz窗口中勾选Global_Planner、Octomap_Mapping及Ground_Truth显示
+ - 输入2选择A_star算法，无人机将自动起飞
+ - 在rviz中通过3D Nav Goal按钮指定目标点，点选该按钮后，同时按住鼠标左右键在rviz窗口中选择一点向上拉  
+    [![G66Zi6.png](https://s1.ax1x.com/2020/04/07/G66Zi6.png)](https://imgchr.com/i/G66Zi6)
+ - 也可以通过终端发布目标点  
+ 		rostopic pub /prometheus/planning/goal ...
+ - 通过终端查看算法相关信息
+   [![G6cGnJ.md.png](https://s1.ax1x.com/2020/04/07/G6cGnJ.md.png)](https://imgchr.com/i/G6cGnJ)
   
-
-### 运行截图  
+  使用RGBD相机作为传感器
+ - 运行launch文件（请查看launch文件参数说明，并进行调整）
+  		roslaunch prometheus_gazebo sitl_global_planning_rgbd.launch 
+ - 在打开的rviz窗口中勾选Global_Planner及Ground_Truth显示
+ - 其他同上
+  
 
 ## 真实环境中运行  
   

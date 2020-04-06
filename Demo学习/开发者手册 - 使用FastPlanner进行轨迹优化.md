@@ -1,11 +1,4 @@
-﻿# 使用FastPlanner进行轨迹优化
-
-本教程的目的：  
-
- - 让用户理解什么是轨迹优化？什么是FastPlanner算法？
- - FastPlanner算法的原理解释，相关参数解释
- - 如何使用FastPlanner算法进行GAZEBO仿真？（三种情况：激光，RGBD，离线地图）
- - 如何进行真实的实验？
+# 使用FastPlanner进行轨迹优化
   
 ## 轨迹优化介绍
 
@@ -16,18 +9,31 @@
 发布了什么话题，这个话题的意义等等  
 
 
+## 规划算法任务程序
+**planning_mission.cpp**
+
+请查看局部规划算法文档中的介绍
+
+
 ## Gazebo仿真环境运行  
   
-  分三种情况来写，对应不同的指令及rviz设置
-
- - 运行launch文件  
-  `roslaunch prometheus_gazebo sitl_local_planner.launch`  
- - 在rviz中指定目标点  
- - 或通过终端输入目标点  
- - 更多详细信息：演示视频  
+  使用激光雷达作为传感器
+ - 运行launch文件（请查看launch文件参数说明，并进行调整）
+  		roslaunch prometheus_gazebo sitl_fast_planning_3dlidar.launch 
+ - 在打开的rviz窗口中勾选Fast_Planner、Octomap_Mapping及Ground_Truth显示
+ - 输入3选择Fast Planner算法，无人机将自动起飞
+ - 在rviz中通过3D Nav Goal按钮指定目标点，点选该按钮后，同时按住鼠标左右键在rviz窗口中选择一点向上拉  
+    [![G66Zi6.png](https://s1.ax1x.com/2020/04/07/G66Zi6.png)](https://imgchr.com/i/G66Zi6)
+ - 也可以通过终端发布目标点  
+ 		rostopic pub /prometheus/planning/goal ...
+ - 通过终端查看算法相关信息
+   [![G6cw9K.md.png](https://s1.ax1x.com/2020/04/07/G6cw9K.md.png)](https://imgchr.com/i/G6cw9K)
   
-
-### 运行截图  
+  使用RGBD相机作为传感器
+ - 运行launch文件（请查看launch文件参数说明，并进行调整）
+  		roslaunch prometheus_gazebo sitl_fast_planning_rgbd.launch 
+ - 在打开的rviz窗口中勾选Fast_Planner及Ground_Truth显示
+ - 其他同上
 
 ## 真实环境中运行  
   
