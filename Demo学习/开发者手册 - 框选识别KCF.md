@@ -8,7 +8,35 @@
 
 ## 识别算法介绍
 
-kcf介绍
+ - 订阅：
+
+真实环境中订阅的相机话题为`/prometheus/camera/rgb/image_raw`
+
+仿真环境中订阅的相机话题为`/P300_Monocular_front/Monocular/image_raw`
+ 
+ - 发布：
+
+检测结果话题`/prometheus/target` (话题格式请参考Prometheus/Modules/msgs/msg/DetectionInfo.msg)
+ 
+ - 配置文件
+
+真实环境中的配置文件为`Prometheus/Modules/object_detection/config/camera_param.yaml`
+
+仿真环境中的配置文件为`Prometheus/Modules/object_detection/config/camera_param_gazebo_monocular.yaml`
+
+注意修改kcf_tracker_h（跟踪框的实际高度）
+
+- kcf算法介绍
+
+KCF作为单目标跟踪的经典之作，在准确率和实时性上都有非常不错的表现，特别对算力要求不高。
+
+算法亮点：
+
+1. 通过循环矩阵生成正负样本来训练脊回归分类器；
+2. 利用循环矩阵可DFT对角化的性质，将循环矩阵的求逆运算转化为向量的点乘；
+3. 针对线性不可分的情况，引入核技巧映射到高维，线性可分
+
+具体可以参考[博客](https://blog.csdn.net/shenxiaolu1984/article/details/50905283)
 
 ## 任务程序介绍
 **object_tracking.cpp**
