@@ -360,9 +360,104 @@ roslaunch realsense2_camera rs_rtabmap.launch
 
 #### 3.3.1 仿真环境及传感器配置
 
+本部分主要介绍在仿真环境中实现RTAM-Map的rgbd建图功能，使用如下命令启动建图程序：
+
+```
+roslaunch prometheus_gazebo sitl_rtabmap.launch
+```
+
+代码如下：
+
+```
+<launch>
+    <!-- 启动Gazebo的仿真-->
+    <arg name="x" default="0.0"/>
+    <arg name="y" default="-5.0"/>
+    <arg name="z" default="0"/>
+	<arg name="world" default="$(find prometheus_gazebo)/worlds/indoor_house.world"/>
+	<arg name="sdf" default="$(find prometheus_gazebo)/models/P300_D435i/P300_D435i.sdf"/>
+	<arg name="model" default="P300_D435i"/>
+    <include file="$(find prometheus_gazebo)/launch/sitl.launch">
+	  <arg name="world" value="$(arg world)"/>
+	  <arg name="sdf" value="$(arg sdf)"/>
+	  <arg name="model" value="$(arg model)"/>
+      <arg name="x" value="$(arg x)"/>
+      <arg name="y" value="$(arg y)"/>
+      <arg name="z" value="$(arg z)"/>
+    </include>
+    <!-- 启动rtab-map-->
+    <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
+        <arg name="rtabmap_args"       value="--delete_db_on_start"/>
+        <arg name="depth_topic"        value="/realsense_d435i/depth/image_raw"/>
+		<arg name="frame_id"           value="base_link"/>
+        <arg name="map_frame_id"       value="rtabmap_frame"/>
+        <arg name="rgb_topic"          value="/realsense_plugin/camera/color/image_raw"/>
+        <arg name="camera_info_topic"  value="/realsense_plugin/camera/color/camera_info"/>
+        <arg name="visual_odometry"    value="false"/>
+        <arg name="odom_topic"         value="/ground_truth/state"/>
+        <arg name="queue_size"         value="200"/>
+		<arg name="rtabmapviz"         value="true"/>
+    </include>
+    <!-- 发布离线点云 -->
+	<node pkg="prometheus_slam" type="pc2_publisher_node" name="pc2_publisher_node" output="screen">	
+		<param name="pcd_path" type="string" value="$(find prometheus_gazebo)/maps/obstacle.pcd" />
+	</node>
+
+	<!-- run the rviz -->
+	<arg name="visualization" default="true"/>
+	<group if="$(arg visualization)">
+		<node type="rviz" name="rviz" pkg="rviz" args="-d $(find prometheus_gazebo)/config/rviz_planning.rviz" />
+    </group>
+</launch>
+```
+
+下面，对launch文件中各部分逐一进行解释进行解释，主要内容包括参数的含义及使用方法。
+
+    <include file="$(find prometheus_gazebo)/launch/sitl.launch">
+      <arg name="world" value="$(arg world)"/>
+      <arg name="sdf" value="$(arg sdf)"/>
+      <arg name="model" value="$(arg model)"/>
+      <arg name="x" value="$(arg x)"/>
+      <arg name="y" value="$(arg y)"/>
+      <arg name="z" value="$(arg z)"/>
+    </include>
+首先，启动gazebo的仿真，其中设置的参数包括无人机在地图中的位置，加载的世界：indoor_house.world，加载相机的模型，启动px4的软件在环仿真；
+
+    <!-- 启动rtab-map-->
+    <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
+        <arg name="rtabmap_args"       value="--delete_db_on_start"/>
+        <arg name="depth_topic"        value="/realsense_d435i/depth/image_raw"/>
+    	<arg name="frame_id"           value="base_link"/>
+        <arg name="map_frame_id"       value="rtabmap_frame"/>
+        <arg name="rgb_topic"          value="/realsense_plugin/camera/color/image_raw"/>
+        <arg name="camera_info_topic"  value="/realsense_plugin/camera/color/camera_info"/>
+        <arg name="visual_odometry"    value="false"/>
+        <arg name="odom_topic"         value="/ground_truth/state"/>
+        <arg name="queue_size"         value="200"/>
+    	<arg name="rtabmapviz"         value="true"/>
+    </include>
+然后启动rtab-map，也是本部分的重点。第一条指令前面已经介绍过，代表本次运行会新建数据集，也就是生成新的.db文件，而不在上次运行的数据基础上运行；"depth_topic"和“rgb_topic”分别代表深度图和彩色图的话题；“frame_id”和"map_frmae_id"分别代表....；另外，如果想要使用外部的里程计数据进行建图，首先需要里程计模式关闭，即“visual_odometry”设置为false，并且设置"odom_topic"为外部运行的里程计话题。
+
+    <!-- 发布离线点云 -->
+    <node pkg="prometheus_slam" type="pc2_publisher_node" name="pc2_publisher_node" output="screen">	
+    	<param name="pcd_path" type="string" value="$(find prometheus_gazebo)/maps/obstacle.pcd" />
+    </node>
+该部分的功能为加载离线点云地图，并以pointcloud2的消息进行发布，主要用于rviz的显示。
+
+	<!-- run the rviz -->
+	<arg name="visualization" default="true"/>
+	<group if="$(arg visualization)">
+		<node type="rviz" name="rviz" pkg="rviz" args="-d $(find prometheus_gazebo)/config/rviz_planning.rviz" />
+	</group>
+加载rviz的配置文件。
+
+#### 3.3.2 RTAB-Map仿真下运行
+
+该部分介绍如何在仿真中运行无人机对环境进行建图。
+
+[![G68wNR.png](https://s1.ax1x.com/2020/04/06/G68wNR.png)](https://imgchr.com/i/G68wNR)
 
 
-#### 3.3.2 RTAB-Map仿真配置
 
 
 
