@@ -455,9 +455,7 @@ roslaunch prometheus_gazebo sitl_rtabmap.launch
 
 该部分介绍如何在仿真中运行无人机对环境进行建图。
 
-[![G68wNR.png](https://s1.ax1x.com/2020/04/06/G68wNR.png)](https://imgchr.com/i/G68wNR)
-
-
+![G68wNR.png](https://s1.ax1x.com/2020/04/06/G68wNR.png)
 
 
 
