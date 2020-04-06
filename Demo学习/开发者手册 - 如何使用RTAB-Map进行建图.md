@@ -73,7 +73,7 @@ memo:
 - **Map Data：**包含传感器信息的地图数据
 - **Map Graph：**不包含数据，只包含图
 
-![GizrVK.png](https://s1.ax1x.com/2020/03/27/GizrVK.png)
+![Gso1aQ.png](https://s1.ax1x.com/2020/04/06/Gso1aQ.png)
 
 
 
@@ -240,7 +240,7 @@ $ rosrun rtabmap_ros icp_odometry --params
 
 #### 3.1.1 配置
 
-[![GloYPx.md.jpg](https://s1.ax1x.com/2020/04/01/GloYPx.md.jpg)](https://imgchr.com/i/GloYPx)
+[![GsolVg.jpg](https://s1.ax1x.com/2020/04/06/GsolVg.jpg)](https://imgchr.com/i/GsolVg)
 
 #### 3.1.2 ROS bags下载
 
@@ -302,7 +302,7 @@ $ rosbag play --clock stereo_outdoorB.bag
 
 #### 3.1.4 运行结果
 
-[![G1SSTf.md.png](https://s1.ax1x.com/2020/04/01/G1SSTf.md.png)](https://imgchr.com/i/G1SSTf)
+![Gsotx0.png](https://s1.ax1x.com/2020/04/06/Gsotx0.png)
 
 （地图保存方式待补充）
 
@@ -322,13 +322,13 @@ RGBD真实环境下建图使用了英特尔的realsense的d435i和t265进行建�
 
 为了将深度相机坐标系下的点云正确的转换到世界坐标系下，需要知道深度相机和机体坐标系（位姿坐标系）之间的转换关系，以及机体坐标系在世界坐标系下的位姿。两个相机之间的连接，采用了英特尔官方的demo实现，使用3D打印制作了两个相机的安装基座，并给定了二者之间的坐标转换关系，具体的教程详见[Tracking and Depth](https://dev.intelrealsense.com/docs/depth-and-tracking-cameras-alignment).  深度相机在机体位姿坐标系下的转换由H_pose_depth表示，而位恣坐标系在世界坐标系下的转换由H_world_pose表示，转换关系如下图所示：
 
-![GQS59J.jpg](https://s1.ax1x.com/2020/03/31/GQS59J.jpg)
+![GsoarT.jpg](https://s1.ax1x.com/2020/04/06/GsoarT.jpg)
 
 ##### 硬件安装配置
 
 D435i相机和T265相机的安装底座可以从[mount](https://github.com/IntelRealSense/librealsense/blob/development/examples/tracking-and-depth/bracket_t265nd435_external.stl)处下载，需要两个M3×10mm的螺栓安装D435i，还需要两个M3×18的螺栓安装T265。二者之间的转换关系配置文件详见[config](https://github.com/IntelRealSense/librealsense/blob/development/examples/tracking-and-depth/H_t265_d400.cfg)。
 
-![GMzDL6.jpg](https://s1.ax1x.com/2020/03/31/GMzDL6.jpg)
+[![GsoMqS.jpg](https://s1.ax1x.com/2020/04/06/GsoMqS.jpg)](https://imgchr.com/i/GsoMqS)
 
 ##### 实际运行
 
@@ -354,7 +354,7 @@ roslaunch realsense2_camera rs_rtabmap.launch
 
 运行完效果如下（待补充）：
 
-![GQuqbD.gif](https://s1.ax1x.com/2020/03/31/GQuqbD.gif)
+[![GsoGPs.gif](https://s1.ax1x.com/2020/04/06/GsoGPs.gif)](https://imgchr.com/i/GsoGPs)
 
 ### 3.3 仿真环境下的建图
 
