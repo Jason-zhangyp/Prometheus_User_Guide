@@ -126,3 +126,18 @@ PX4是一个功能丰富的开源飞控，它所提供的不仅仅只是飞控�
 - circle_gate（形状穿越用的圆形门）
 - wall_with_num（数字识别用的数字墙）
 - line_following（巡线用的线）
+
+## Gazebo仿真中的坐标系说明
+有如下坐标系（括号内代表该坐标系的frame_id）：
+- **世界坐标系（world）**：原点位于Gazebo仿真器中心点，xyz轴方向遵从ENU的右手法则
+- **机体系（base_link）**：原点位于无人机质心，x轴指向机体前方，y轴指向机体左方，z轴指向机体上方
+- **起飞坐标系（world_on_body（目前名字为map））**：原点位于无人机的初始点
+- **传感器坐标系（3Dlidar_link、realsense_camera_link等）**：原点位于传感器质心
+- **相机坐标系**：原点位于相机光心，从相机往前看，物体在相机右方x为正，下方y为正，前方z为正；因此图像识别得到的结果应当转换至机体系，该部分处理在对应的程序中进行
+
+仿真中与坐标系相关的话题：
+- p300_basic.sdf中插件所发布的里程计真值（`/prometheus/ground_truth/p300_basic`）位于world坐标系
+- 3Dlidar.sdf及D435i.sdf等传感器发布的测量数据（如点云）均位于传感器坐标系，因此需要转换至机体系方可使用，该部分处理在`tf_transform.launch`中
+- px4_pos_estimator.cpp中订阅`/prometheus/ground_truth/p300_basic`，并转存为`/mavros/vision_pose/pose`发布
+- PX4固件通过Mavros功能包发布的位置、速度、里程计等信息位于起飞坐标系（world_on_body（目前名字为map））中
+- rtab_map和octomap等建图工具包发布的地图或点云信息，位于世界坐标系（world）
