@@ -453,15 +453,13 @@ roslaunch prometheus_gazebo sitl_rtabmap.launch
 
 #### 3.3.2 RTAB-Map仿真下运行
 
-该部分介绍如何在仿真中运行无人机对环境进行建图。
-
-![G68wNR.png](https://s1.ax1x.com/2020/04/06/G68wNR.png)
+该部分介绍如何在仿真中运行无人机对环境进行建图。运行上述launch文件后，无人机便会被放置于环境中，下一步就是控制无人机运动进行建图。在仿真环境中，可以连接手柄或遥控器通过QGC对无人机进行控制，具体配置详见[教程](https://docs.qgroundcontrol.com/en/SetupView/Joystick.html)。效果如下：
 
 
 
 
 
-### 
+
 
 
 
