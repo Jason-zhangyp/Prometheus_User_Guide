@@ -7,8 +7,12 @@
  - 如何使用FastPlanner算法进行GAZEBO仿真？（三种情况：激光，RGBD，离线地图）
  - 如何进行真实的实验？
   
-## 轨迹优化介绍
-
+## 规划框架
+FastPlanner 由三部分组成，分别包括混合A*算法、Bspline轨迹生成和自动时间分配调整。
+混合A*算法用于
+Bspline轨迹生成用于
+自动时间分配用于
+因此整个算法可以实现
 
 ## FastPlanner算法介绍 （原理+订阅的topic+发布的topic+参数）
 
@@ -21,7 +25,7 @@
   分三种情况来写，对应不同的指令及rviz设置
 
  - 运行launch文件  
-  `roslaunch prometheus_gazebo sitl_local_planner.launch`  
+  `roslaunch prometheus_gazebo sitl_fast_planning_rgbd.launch`  
  - 在rviz中指定目标点  
  - 或通过终端输入目标点  
  - 更多详细信息：演示视频  
