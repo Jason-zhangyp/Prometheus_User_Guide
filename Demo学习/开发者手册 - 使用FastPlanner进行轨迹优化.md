@@ -1,8 +1,8 @@
-﻿# 使用FastPlanner进行轨迹优化
+# 使用FastPlanner进行轨迹优化
   
 ## 规划框架
-FastPlanner 由三部分组成，分别包括混合A*算法、Bspline轨迹生成和自动时间分配调整。  
-规划流程的主要管理由plannning_fsm函数完成，负责调用规划算法，安全检查等。  
+FastPlanner 由三部分组成，分别包括混合A*算法、Bspline轨迹生成和自动时间分配调整。规划流程的主要管理由plannning_fsm函数完成，负责调用规划算法，安全检查等。  
+
 混合A*算法位于path_searching文件夹，用于实现全局规划 ，主要调用函数为 "search()"，在已知地图的前提下，给定起点和终点状态(位置和速度)实现混合A*搜索；如果搜索成功，返回一系列path_nodes_节点。
 
 Bspline轨迹位于bspline_opt文件夹，用于轨迹生成。将混合A*的输出轨迹点转化为Bspline的控制点，再调用optimize函数完成优化。
@@ -15,26 +15,24 @@ Bspline轨迹位于bspline_opt文件夹，用于轨迹生成。将混合A*的输
 
 
 ## FastPlanner算法介绍 （原理+订阅的topic+发布的topic+参数）
-    主要部分包括：  
-    主节点： planning_fsm.cpp  
-    混合A*: kinodynamic_astar.cpp  
-    Bspline优化: bspline_optimizer.cpp
-    自动时间分配： non_uniform_bspline.cpp
-    sdf地图： sdf_map.cpp     global_point_sdf.cpp
-    轨迹处理： traj_server.cpp
+主要部分包括：  
+ - 主节点： planning_fsm.cpp  
+ - 混合A*: kinodynamic_astar.cpp  
+ - Bspline优化: bspline_optimizer.cpp
+ - 自动时间分配： non_uniform_bspline.cpp
+ - sdf地图： sdf_map.cpp     global_point_sdf.cpp
+ - 轨迹处理： traj_server.cpp
 
 
 **fast fsm**  
 
-位置： 
-
-    FastPlanner/plan_manage/src/planning_fsm.cpp  
+文件目录： `FastPlanner/plan_manage/src/planning_fsm.cpp `
 
 功能：
 
-    1. 管理规划节点，运行planner状态机
-    2. 安全性检查  
-    3. 订阅目标，发布规划的轨迹
+1. 管理规划节点，运行planner状态机
+2. 安全性检查  
+3. 订阅目标，发布规划的轨迹
 
 
 参数：   
@@ -57,19 +55,17 @@ Bspline轨迹位于bspline_opt文件夹，用于轨迹生成。将混合A*的输
 发布话题： 
 
     "/prometheus/planning/stop_cmd"  // 当前是否安全的状态指令
-      "/prometheus/planning/bspline"  //  规划出来的bspline轨迹
+    "/prometheus/planning/bspline"  //  规划出来的bspline轨迹
 
 
 
 **混合A\***  
 
-位置： 
-
-    FastPlanner/path_searching/src/kinodynamic_astar.cpp  
+文件目录： `FastPlanner/path_searching/src/kinodynamic_astar.cpp`
 
 参数：  
 
-      nh.param("search/max_tau", max_tau_, -1.0);  //如果考虑对时间维度进行划分才设置，这里未设置
+       nh.param("search/max_tau", max_tau_, -1.0);  //如果考虑对时间维度进行划分才设置，这里未设置
        nh.param("search/init_max_tau", init_max_tau_, -1.0);  
        nh.param("search/max_vel", max_vel_, -1.0);    // 速度限制
        nh.param("search/max_acc", max_acc_, -1.0);    // 加速度限制
@@ -85,9 +81,8 @@ Bspline轨迹位于bspline_opt文件夹，用于轨迹生成。将混合A*的输
 
 
 **Bspline优化**  
-位置：
 
-    FastPlanner/bspline_opt/src/bspline_optimizer.cpp
+文件目录：`FastPlanner/bspline_opt/src/bspline_optimizer.cpp`
 
 参数：
 
@@ -108,15 +103,12 @@ Bspline轨迹位于bspline_opt文件夹，用于轨迹生成。将混合A*的输
 
 **自动时间分配**
 
-位置：
-
-    FastPlanner/bspline_opt/src/non_uniform_bspline.cpp
-
+文件目录：`FastPlanner/bspline_opt/src/non_uniform_bspline.cpp`
 
 
 **地图处理**  
 
-位置：  
+文件目录：  
 
     FastPlanner/plan_env/src/sdf_map.cpp
     FastPlanner/plan_env/src/global_point_sdf.cpp
@@ -155,21 +147,19 @@ Bspline轨迹位于bspline_opt文件夹，用于轨迹生成。将混合A*的输
 
 **样条轨迹处理&发布控制**    
 
-位置：    
-
-    FastPlanner/plan_manage/src/traj_server.cpp
+文件目录：`FastPlanner/plan_manage/src/traj_server.cpp`
 
 订阅话题：  
 
-        "/prometheus/planning/bspline" :  由规划器生成的样条轨迹  
-        "/prometheus/fast_planning/replan": 重规划标志  
-        "/prometheus/planning/odom_world": 里程计数据  
+    "/prometheus/planning/bspline" :  由规划器生成的样条轨迹  
+    "/prometheus/fast_planning/replan": 重规划标志  
+    "/prometheus/planning/odom_world": 里程计数据  
 
 发布话题：  
 
-        "/prometheus/planning/position_cmd": 给无人机控制指令
-        "/prometheus/planning/traj":  显示轨迹
-        "/prometheus/planning/state":   显示运动
+    "/prometheus/planning/position_cmd": 给无人机控制指令
+    "/prometheus/planning/traj":  显示轨迹
+    "/prometheus/planning/state":   显示运动
 
 
 
