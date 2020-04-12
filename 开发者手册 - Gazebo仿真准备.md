@@ -14,7 +14,7 @@ Gazebo仿真环境依赖PX4固件及sitl_gazebo包，因此需先安装PX4编译
  cd Firmware_v110
  git submodule update --init --recursive
  make px4_sitl gazebo
-```
+ ```
  - **要求**：PX4固件能够编译，并能运行其自带的Gazebo仿真
 
 ## 环境变量配置
@@ -44,7 +44,7 @@ sudo apt-get install ros-melodic-velodyne-gazebo-plugins
 ```
 
 ## 仿真功能包编译
- 
+
  请确保Prometheus项目中其他相应的功能包均已编译通过，然后编译prometheus_gazebo功能包
 ```
 cd Prometheus
@@ -65,11 +65,11 @@ roslaunch prometheus_gazebo sitl.launch
 在Gazebo仿真环境中，根据仿真目的不同提供以下三种方式控制无人机飞行：
 
 ### QGC及遥控器控制（针对不需要offboard模式的情况）	 
- 
+
  - 软件需求：安装QGC地面站
  - 硬件需求：可连接至电脑的遥控器或手柄，连接后在QGC中进行配置
  - 打开QGC，可通过虚拟摇杆或者外接遥控器对飞机进行操控
- 
+
  运行截图如下：
 	 
 [![3tSdk6.png](https://s2.ax1x.com/2020/02/25/3tSdk6.png)](https://imgchr.com/i/3tSdk6)
@@ -78,7 +78,7 @@ roslaunch prometheus_gazebo sitl.launch
  运行键盘控制节点，根据终端提示进行键盘操纵
  ```
 rosrun prometheus_gazebo keyboard_control)px4.py
-```
+ ```
 需在QGC中配置如下参数（似乎有点问题，待测试）
 ```
 RC2_TRIM = 1000us
