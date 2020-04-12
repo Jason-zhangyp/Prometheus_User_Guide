@@ -1,71 +1,14 @@
-memo:
-
-本教程的目的：  
-
- - 让用户理解什么是建图？
-
- - RtabMap包的使用
-
- - 如何使用RtabMap算法进行GAZEBO仿真？
-
- - 如何进行真实的实验？
-
-   Rtabmap_ros代码的总体说明（有什么用，使用了什么算法之类的介绍文字）
-
-   详细的使用说明（包括launch文件参数的说明，选用不同输入来源时的用法）
-
-   （原理+订阅的topic+发布的topic+参数）
-
-
-
-
-
-### 相关launch文件介绍
-
-手持建图（在gazebo中使用我们自己的worlds，手动飞行建图的流程，刚好把obstacle那个建一个完整的图）
-
-
- - 运行launch文件
-   `roslaunch prometheus_gazebo sitl_mapping.launch`
-
- - 测试此功能时，无需自主飞行，此处推荐键盘控制或通过遥控器控制无人机 移动
-
- - 在rviz可观察建图情况
-
- - 更多详细信息：演示视频
-
-   
-
-   topic
-
-   说明不需要slam
-
-   选择：数据集or真机 选择
-
-   rgbd数据集
-
-   more 图
-
-   参数+lanuch
-
-   
-
-﻿# 如何使用RTAB-Map进行建图
-
+# RTAB-Map建图
 ## 1. RTAB-Map介绍
 
 [RTAB-Map](http://introlab.github.io/rtabmap/) (Real-Time Appearance-Based Mapping)是一种基于增量式外观特征进行回环检测的SLAM框架，可以支持包括RGB-D，双目和激光雷达在内的多种传感器进行定位和建图。RTAB-Map使用词袋的方式判断新接收到的图像有多大可能是来自一个新位置或是曾经到过的位置，以此来完成回环检测，当检测到回环时，新的约束会被加到地图中，然后通过图优化的方式来最小化误差。RTAB-Map回使用内存管理的方法，限制用于回环检测和图优化的位置数量以保证在大规模环境中的实时性。RTAB-Map可以使用手持的RGB-D相机、双目相机或三维激光雷达进行六自由度建图。
 
 自2013年开源以来，RTAB-Map已经发展成为了一个较为全面的SLAM框架，可以在不同类型的传感器下使用，并且已经发展成了一个独立的跨平台的C++库和ROS的包，可以满足实时性、鲁棒的里程计和定位功能，不同用途的建图及重定位功能等需求。以下图片展示了rtabmap的ROS节点的框图。需要的输入有：
-
 - **TF：**传感器位置和机器人本体之间的位置关系
-
 - **Odometery：**3DoF或者6DoF的里程计，可以使任意来源
-
 - **相机输入：**可以是双目或者是RGB-D，带有相应的标定信息
 
 产生的输出有：
-
 - **TF：**里程及纠正信息
 - **OctoMap： **三维占用地图（可选）
 - **Point Cloud：**三维稠密点云
@@ -73,15 +16,13 @@ memo:
 - **Map Data：**包含传感器信息的地图数据
 - **Map Graph：**不包含数据，只包含图
 
-![Gso1aQ.png](https://s1.ax1x.com/2020/04/06/Gso1aQ.png)
-
-
+![RTAB-Map原理图.png](https://s1.ax1x.com/2020/04/06/Gso1aQ.png)
 
 ## 2. RTAB-Map的使用
 
 ### 2.1 RTAB-Map安装
 
-RTAB-Map可支持不同操作系统的安装，包括Ubuntu、Mac OS 和Windows，同时支持ROS，详见[安装](https://github.com/introlab/rtabmap/wiki/Installation)，本项目主要使用了RTAB-Map的ROS包，因此仅对ROS下的安装进行说明，
+RTAB-Map可支持不同操作系统的安装，包括Ubuntu、Mac OS 和Windows，同时支持ROS，详见[安装说明](https://github.com/introlab/rtabmap/wiki/Installation)，本项目主要使用了RTAB-Map的ROS包，因此仅对ROS下的安装进行说明，
 
 #### 2.1.1 二进制文件安装：
 
@@ -91,19 +32,13 @@ RTAB-Map可支持不同操作系统的安装，包括Ubuntu、Mac OS 和Windows�
   $ sudo apt-get install ros-melodic-rtabmap-ros
   ```
 
-- Ubuntu 16.04版本
-
-  ```
-  $ sudo apt-get install ros-kinetic-rtabmap-ros
-  ```
-
 #### 2.1.2 源码安装
 
 对RTAB-Map进行源码编译，详见官方教程[编译](https://github.com/introlab/rtabmap_ros#rtabmap_ros-)
 
 ### 2.2 RTAB-Map的ROS节点
 
-对于RTAB-MAP在ROS下的运行，详细可阅读[wiki](http://wiki.ros.org/rtabmap_ros)，本部分仅对主要的node的进行说明。
+对于RTAB-MAP在ROS下的运行，详细可阅读[ros wiki](http://wiki.ros.org/rtabmap_ros)，本部分仅对主要的node的进行说明。
 
 #### **2.2.1 rtabmap**：
 
@@ -227,8 +162,6 @@ $ rosrun rtabmap_ros stereo_odometry --params
 ```
 $ rosrun rtabmap_ros icp_odometry --params
 ```
-
-
 
 ## 3 RTAB-Map测试
 
@@ -370,11 +303,11 @@ roslaunch prometheus_gazebo sitl_rtabmap.launch
 
 ```
 <launch>
-    <!-- 启动Gazebo的仿真-->
+    <!-- Launch Gazebo Simulation -->
     <arg name="x" default="0.0"/>
     <arg name="y" default="-5.0"/>
     <arg name="z" default="0"/>
-	<arg name="world" default="$(find prometheus_gazebo)/worlds/indoor_house.world"/>
+	<arg name="world" default="$(find prometheus_gazebo)/worlds/obstacle.world"/>
 	<arg name="sdf" default="$(find prometheus_gazebo)/models/P300_D435i/P300_D435i.sdf"/>
 	<arg name="model" default="P300_D435i"/>
     <include file="$(find prometheus_gazebo)/launch/sitl.launch">
@@ -385,71 +318,85 @@ roslaunch prometheus_gazebo sitl_rtabmap.launch
       <arg name="y" value="$(arg y)"/>
       <arg name="z" value="$(arg z)"/>
     </include>
-    <!-- 启动rtab-map-->
+
+    <!-- 启动rtabmap_ros建图 -->
     <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
         <arg name="rtabmap_args"       value="--delete_db_on_start"/>
-        <arg name="depth_topic"        value="/realsense_d435i/depth/image_raw"/>
-		<arg name="frame_id"           value="base_link"/>
-        <arg name="map_frame_id"       value="rtabmap_frame"/>
-        <arg name="rgb_topic"          value="/realsense_plugin/camera/color/image_raw"/>
-        <arg name="camera_info_topic"  value="/realsense_plugin/camera/color/camera_info"/>
+        <arg name="frame_id"           value="base_link"/>
         <arg name="visual_odometry"    value="false"/>
-        <arg name="odom_topic"         value="/ground_truth/state"/>
-        <arg name="queue_size"         value="200"/>
-		<arg name="rtabmapviz"         value="true"/>
+        <!-- RGB-D related topics -->
+        <arg name="approx_sync"         value="true"/>
+        <arg name="rgb_topic"          value="/realsense_plugin/camera/color/image_raw"/>
+        <arg name="depth_topic"        value="/realsense_plugin/camera/depth/image_raw"/>
+        <arg name="camera_info_topic"  value="/realsense_plugin/camera/color/camera_info"/>
+        <arg name="odom_topic"         value="/prometheus/planning/odom_world"/> 
+        <!-- 发布地图的坐标系 -->
+        <arg name="map_frame_id"       value="world"/>   
+        <!--visualization-->
+		<arg name="rtabmapviz"         value="false"/>
+        <arg name="rviz"               value="false"/>
     </include>
-    <!-- 发布离线点云 -->
-	<node pkg="prometheus_slam" type="pc2_publisher_node" name="pc2_publisher_node" output="screen">	
-		<param name="pcd_path" type="string" value="$(find prometheus_gazebo)/maps/obstacle.pcd" />
-	</node>
-
-	<!-- run the rviz -->
+    
+	<!-- 启动rviz,设为false可关闭 -->
 	<arg name="visualization" default="true"/>
 	<group if="$(arg visualization)">
-		<node type="rviz" name="rviz" pkg="rviz" args="-d $(find prometheus_gazebo)/config/rviz_planning.rviz" />
+        <node type="rviz" name="rviz" pkg="rviz" args="-d $(find prometheus_gazebo)/config/rviz_planning.rviz" />
+        <!-- obstacle.world 真实点云 -->
+        <node pkg="prometheus_slam" type="pc2_publisher_node" name="pc2_publisher_node" output="screen">	
+		    <param name="pcd_path" type="string" value="$(find prometheus_gazebo)/maps/obstacle.pcd" />
+	    </node>
     </group>
 </launch>
 ```
 
 下面，对launch文件中各部分逐一进行解释进行解释，主要内容包括参数的含义及使用方法。
 
-    <include file="$(find prometheus_gazebo)/launch/sitl.launch">
-      <arg name="world" value="$(arg world)"/>
-      <arg name="sdf" value="$(arg sdf)"/>
-      <arg name="model" value="$(arg model)"/>
-      <arg name="x" value="$(arg x)"/>
-      <arg name="y" value="$(arg y)"/>
-      <arg name="z" value="$(arg z)"/>
-    </include>
+        <!-- Launch Gazebo Simulation -->
+        <arg name="x" default="0.0"/>
+        <arg name="y" default="-5.0"/>
+        <arg name="z" default="0"/>
+        <arg name="world" default="$(find prometheus_gazebo)/worlds/obstacle.world"/>
+        <arg name="sdf" default="$(find prometheus_gazebo)/models/P300_D435i/P300_D435i.sdf"/>
+        <arg name="model" default="P300_D435i"/>
+        <include file="$(find prometheus_gazebo)/launch/sitl.launch">
+          <arg name="world" value="$(arg world)"/>
+          <arg name="sdf" value="$(arg sdf)"/>
+          <arg name="model" value="$(arg model)"/>
+          <arg name="x" value="$(arg x)"/>
+          <arg name="y" value="$(arg y)"/>
+          <arg name="z" value="$(arg z)"/>
+        </include>
 首先，启动gazebo的仿真，其中设置的参数包括无人机在地图中的位置，加载的世界：indoor_house.world，加载相机的模型，启动px4的软件在环仿真；
 
-    <!-- 启动rtab-map-->
+    <!-- 启动rtabmap_ros建图 -->
     <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
         <arg name="rtabmap_args"       value="--delete_db_on_start"/>
-        <arg name="depth_topic"        value="/realsense_d435i/depth/image_raw"/>
-    	<arg name="frame_id"           value="base_link"/>
-        <arg name="map_frame_id"       value="rtabmap_frame"/>
-        <arg name="rgb_topic"          value="/realsense_plugin/camera/color/image_raw"/>
-        <arg name="camera_info_topic"  value="/realsense_plugin/camera/color/camera_info"/>
+        <arg name="frame_id"           value="base_link"/>
         <arg name="visual_odometry"    value="false"/>
-        <arg name="odom_topic"         value="/ground_truth/state"/>
-        <arg name="queue_size"         value="200"/>
-    	<arg name="rtabmapviz"         value="true"/>
+        <!-- RGB-D related topics -->
+        <arg name="approx_sync"         value="true"/>
+        <arg name="rgb_topic"          value="/realsense_plugin/camera/color/image_raw"/>
+        <arg name="depth_topic"        value="/realsense_plugin/camera/depth/image_raw"/>
+        <arg name="camera_info_topic"  value="/realsense_plugin/camera/color/camera_info"/>
+        <arg name="odom_topic"         value="/prometheus/planning/odom_world"/> 
+        <!-- 发布地图的坐标系 -->
+        <arg name="map_frame_id"       value="world"/>   
+        <!--visualization-->
+		<arg name="rtabmapviz"         value="false"/>
+        <arg name="rviz"               value="false"/>
     </include>
 然后启动rtab-map，也是本部分的重点。第一条指令前面已经介绍过，代表本次运行会新建数据集，也就是生成新的.db文件，而不在上次运行的数据基础上运行；"depth_topic"和“rgb_topic”分别代表深度图和彩色图的话题；“frame_id”和"map_frmae_id"分别代表....；另外，如果想要使用外部的里程计数据进行建图，首先需要里程计模式关闭，即“visual_odometry”设置为false，并且设置"odom_topic"为外部运行的里程计话题。
 
-    <!-- 发布离线点云 -->
-    <node pkg="prometheus_slam" type="pc2_publisher_node" name="pc2_publisher_node" output="screen">	
-    	<param name="pcd_path" type="string" value="$(find prometheus_gazebo)/maps/obstacle.pcd" />
-    </node>
-该部分的功能为加载离线点云地图，并以pointcloud2的消息进行发布，主要用于rviz的显示。
-
-	<!-- run the rviz -->
+	<!-- 启动rviz,设为false可关闭 -->
 	<arg name="visualization" default="true"/>
 	<group if="$(arg visualization)">
-		<node type="rviz" name="rviz" pkg="rviz" args="-d $(find prometheus_gazebo)/config/rviz_planning.rviz" />
-	</group>
-加载rviz的配置文件。
+        <node type="rviz" name="rviz" pkg="rviz" args="-d $(find prometheus_gazebo)/config/rviz_planning.rviz" />
+        <!-- obstacle.world 真实点云 -->
+        <node pkg="prometheus_slam" type="pc2_publisher_node" name="pc2_publisher_node" output="screen">	
+		    <param name="pcd_path" type="string" value="$(find prometheus_gazebo)/maps/obstacle.pcd" />
+	    </node>
+    </group>
+加载rviz的配置文件,并加载离线点云地图，并以pointcloud2的消息进行发布。
 
 #### 3.3.2 RTAB-Map仿真下运行
 
