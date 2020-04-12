@@ -91,10 +91,10 @@ APF参考阅读: http://kovan.ceng.metu.edu.tr/~kadir/academia/courses/grad/cs54
 
 ## Gazebo仿真环境运行  
   
-  使用激光雷达作为传感器
+  **使用激光雷达作为传感器**
  - 运行launch文件（请查看launch文件参数说明，并进行调整）
   		roslaunch prometheus_gazebo sitl_local_planning_3Dlidar.launch 
- - 在打开的rviz窗口中勾选Local_Planner及Ground_Truth显示
+ - 在打开的rviz窗口中勾选`局部规划`及`Ground_Truth`显示(绿色为真值,红色为激光雷达局部点云)
  - 输入1选择APF算法，无人机将自动起飞
  - 在rviz中通过3D Nav Goal按钮指定目标点，点选该按钮后，同时按住鼠标左右键在rviz窗口中选择一点向上拉  
     [![G66Zi6.png](https://s1.ax1x.com/2020/04/07/G66Zi6.png)](https://imgchr.com/i/G66Zi6)
@@ -103,12 +103,18 @@ APF参考阅读: http://kovan.ceng.metu.edu.tr/~kadir/academia/courses/grad/cs54
  - 通过终端查看算法相关信息
    [![G66EIx.md.png](https://s1.ax1x.com/2020/04/07/G66EIx.md.png)](https://imgchr.com/i/G66EIx)
  
+运行截图
  
-  使用RGBD相机作为传感器
+ ![GLvcpq.gif](https://s1.ax1x.com/2020/04/12/GLvcpq.gif)
+  **使用RGBD相机作为传感器**
+  
+
  - 运行launch文件（请查看launch文件参数说明，并进行调整）
   		roslaunch prometheus_gazebo sitl_local_planning_rgbd.launch 
  - 其他同上
   
+  说明:  并不推荐此方案,因为RGBD相机视场较差,避障效果较差,如需使用此方案,需对参数进行调试
+
 ## 真实环境中运行  
   
 

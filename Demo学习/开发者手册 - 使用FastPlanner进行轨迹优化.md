@@ -171,24 +171,32 @@ Bspline轨迹位于bspline_opt文件夹，用于轨迹生成。将混合A*的输
 
 ## Gazebo仿真环境运行  
   
-  使用激光雷达作为传感器
+**使用激光雷达作为传感器**
  - 运行launch文件（请查看launch文件参数说明，并进行调整）
   		roslaunch prometheus_gazebo sitl_fast_planning_3dlidar.launch 
- - 在打开的rviz窗口中勾选Fast_Planner、Octomap_Mapping及Ground_Truth显示
+ - 在打开的rviz窗口中勾选`Fast_Planner`、`Octomap_Mapping`及`Ground_Truth`显示
  - 输入3选择Fast Planner算法，无人机将自动起飞
- - 在rviz中通过3D Nav Goal按钮指定目标点，点选该按钮后，同时按住鼠标左右键在rviz窗口中选择一点向上拉  
+ - 在rviz中通过3D Nav Goal按钮指定目标点，点选该按钮后，同时按住鼠标左右键在rviz窗口中选择一点向上拉
     [![G66Zi6.png](https://s1.ax1x.com/2020/04/07/G66Zi6.png)](https://imgchr.com/i/G66Zi6)
+ - 红色线代表规划的路径,黄色线代表优化后的轨迹
  - 也可以通过终端发布目标点  
  		rostopic pub /prometheus/planning/goal ...
  - 通过终端查看算法相关信息
    [![G6cw9K.md.png](https://s1.ax1x.com/2020/04/07/G6cw9K.md.png)](https://imgchr.com/i/G6cw9K)
   
-  使用RGBD相机作为传感器
+  运行截图
+  
+  [![GOCplR.md.png](https://s1.ax1x.com/2020/04/12/GOCplR.md.png)](https://imgchr.com/i/GOCplR)
+  
+**使用RGBD相机作为传感器**
  - 运行launch文件（请查看launch文件参数说明，并进行调整）
   		roslaunch prometheus_gazebo sitl_fast_planning_rgbd.launch 
- - 在打开的rviz窗口中勾选Fast_Planner及Ground_Truth显示
+ - 在打开的rviz窗口中勾选`Fast_Planner`,`RTAB建图`及`Ground_Truth`显示
  - 其他同上
+ 
+ 运行截图
 
+	[![GOCvHf.md.png](https://s1.ax1x.com/2020/04/12/GOCvHf.md.png)](https://imgchr.com/i/GOCvHf)
 ## 真实环境中运行  
   
 

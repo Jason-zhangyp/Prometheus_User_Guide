@@ -91,7 +91,7 @@
   使用激光雷达作为传感器
  - 运行launch文件（请查看launch文件参数说明，并进行调整）
   		roslaunch prometheus_gazebo sitl_global_planning_3dlidar.launch 
- - 在打开的rviz窗口中勾选Global_Planner、Octomap_Mapping及Ground_Truth显示
+ - 在打开的rviz窗口中勾选`Global_Planner`、`Octomap_Mapping`及`Ground_Truth`显示
  - 输入2选择A_star算法，无人机将自动起飞
  - 在rviz中通过3D Nav Goal按钮指定目标点，点选该按钮后，同时按住鼠标左右键在rviz窗口中选择一点向上拉  
     [![G66Zi6.png](https://s1.ax1x.com/2020/04/07/G66Zi6.png)](https://imgchr.com/i/G66Zi6)
@@ -100,10 +100,14 @@
  - 通过终端查看算法相关信息
    [![G6cGnJ.md.png](https://s1.ax1x.com/2020/04/07/G6cGnJ.md.png)](https://imgchr.com/i/G6cGnJ)
   
+ 运行截图:
+![GOSrAe.gif](https://s1.ax1x.com/2020/04/12/GOSrAe.gif)
+ 
+  
   使用RGBD相机作为传感器
  - 运行launch文件（请查看launch文件参数说明，并进行调整）
   		roslaunch prometheus_gazebo sitl_global_planning_rgbd.launch 
- - 在打开的rviz窗口中勾选Global_Planner及Ground_Truth显示
+ - 在打开的rviz窗口中勾选`Global_Planner`及`Ground_Truth`显示
  - 其他同上
   
 
