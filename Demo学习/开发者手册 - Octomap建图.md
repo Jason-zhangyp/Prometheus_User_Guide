@@ -13,22 +13,44 @@ Octomap使用概率描述节点的占据状态，概率大于0.5表示占据，�
 
 ## 2. 仿真流程
 
-### 数据集
+### 数据集建图
 
-配一个3dlidar的数据集,并附上运行方法和运行截图
+可通过该[链接](http://ais.informatik.uni-freiburg.de/projects/datasets/octomap/)下载Octomap数据集，数据集中包含室外的激光点云数据和室内的RGBD数据，下载完解压后可以使用graph2tree工具对数据进行建图：
+
+```
+graph2tree -i input.graph -o map.bt -res 0.1
+```
+
+建图完成后会形成.bt和.ot两种格式的地图文件，其中.ot包含所有占据信息，而.bt文件压缩程度更高。使用octoviz工具查看地图
+
+```
+sudo apt install octovis
+octovis map.ot
+octovis map.bt
+```
+
+以下结果分别是激光点云和RGBD的结果：
+
+![GOEy4K.png](https://s1.ax1x.com/2020/04/12/GOEy4K.png)
+
+![GOErAx.png](https://s1.ax1x.com/2020/04/12/GOErAx.png)
 
 ### obstacle.world 建图
 
 - 运行启动脚本,并耐心等待Gazebo及rviz启动
     	roslaunch prometheus_gazebo sitl_octomap.launch
+    	
+- 在launch中可选择使用Lidar还是RGBD作为输入进行建图。
+    	
 - 正常运行截图如下,在rviz中勾选Ground_Truth及Octomap建图显示选项,绿色为真值,白色为建图结果(全局点云),彩色图案为octomap格式地图
 
 	[![GL4LdK.md.png](https://s1.ax1x.com/2020/04/12/GL4LdK.md.png)](https://imgchr.com/i/GL4LdK)
 	[![GLTyfU.md.png](https://s1.ax1x.com/2020/04/12/GLTyfU.md.png)](https://imgchr.com/i/GLTyfU)
-- 可使用terminal或键盘控制无人机运动,查看实时建图结果
+	
+- 可使用terminal或键盘控制无人机运动,查看实时建图结果，运行效果如下：
 		rosrun prometheus_control terminal_control
 
-
+![GOZBY6.png](https://s1.ax1x.com/2020/04/12/GOZBY6.png)
 
 
 
