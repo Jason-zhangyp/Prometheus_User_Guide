@@ -409,8 +409,15 @@ roslaunch prometheus_gazebo sitl_rtabmap.launch
 ![GWhfOI.gif](https://s1.ax1x.com/2020/04/08/GWhfOI.gif)
 
 
+## obstacle.world 建图说明
 
-
+- 运行启动脚本,并耐心等待Gazebo及rviz启动
+    	roslaunch prometheus_gazebo sitl_rtabmap.launch
+- 正常运行截图如下,在rviz中勾选Ground_Truth及RTAB建图显示选项,绿色为真值,白色为建图结果(全局点云)
+[![GL4LdK.md.png](https://s1.ax1x.com/2020/04/12/GL4LdK.md.png)](https://imgchr.com/i/GL4LdK)
+[![GL4OIO.md.png](https://s1.ax1x.com/2020/04/12/GL4OIO.md.png)](https://imgchr.com/i/GL4OIO)
+- 可使用terminal或键盘控制无人机运动,查看实时建图结果
+		rosrun prometheus_control terminal_control
 
 
 
