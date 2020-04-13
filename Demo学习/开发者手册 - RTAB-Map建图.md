@@ -305,7 +305,7 @@ roslaunch prometheus_gazebo sitl_rtabmap.launch
 <launch>
     <!-- Launch Gazebo Simulation -->
     <arg name="x" default="0.0"/>
-    <arg name="y" default="-5.0"/>
+    <arg name="y" default="-10.0"/>
     <arg name="z" default="0"/>
 	<arg name="world" default="$(find prometheus_gazebo)/worlds/obstacle.world"/>
 	<arg name="sdf" default="$(find prometheus_gazebo)/models/P300_D435i/P300_D435i.sdf"/>
@@ -353,7 +353,7 @@ roslaunch prometheus_gazebo sitl_rtabmap.launch
 
         <!-- Launch Gazebo Simulation -->
         <arg name="x" default="0.0"/>
-        <arg name="y" default="-5.0"/>
+        <arg name="y" default="-10.0"/>
         <arg name="z" default="0"/>
         <arg name="world" default="$(find prometheus_gazebo)/worlds/obstacle.world"/>
         <arg name="sdf" default="$(find prometheus_gazebo)/models/P300_D435i/P300_D435i.sdf"/>

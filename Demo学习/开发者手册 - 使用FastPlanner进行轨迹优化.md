@@ -1,5 +1,5 @@
 # 使用FastPlanner进行轨迹优化
-  
+
 ## 规划框架
 FastPlanner 由三部分组成，分别包括混合A*算法、Bspline轨迹生成和自动时间分配调整。规划流程的主要管理由plannning_fsm函数完成，负责调用规划算法，安全检查等。  
 
@@ -123,11 +123,11 @@ Bspline轨迹位于bspline_opt文件夹，用于轨迹生成。将混合A*的输
     node_.param("sdf_map/origin_x", origin_(0), -20.0);  //地图原点
     node_.param("sdf_map/origin_y", origin_(1), -20.0);
     node_.param("sdf_map/origin_z", origin_(2), 0.0);
-
+    
     node_.param("sdf_map/map_size_x", map_size_(0), 40.0);  //地图大小边界
     node_.param("sdf_map/map_size_y", map_size_(1), 40.0);
     node_.param("sdf_map/map_size_z", map_size_(2), 5.0);
-
+    
     node_.param("sdf_map/resolution_sdf", resolution_sdf_, 0.2);  //地图分辨率
     node_.param("sdf_map/ceil_height", ceil_height_, 2.0);  // 限高
     node_.param("sdf_map/update_rate", update_rate_, 10.0);  // 地图更新频率
@@ -170,10 +170,10 @@ Bspline轨迹位于bspline_opt文件夹，用于轨迹生成。将混合A*的输
 
 
 ## Gazebo仿真环境运行  
-  
+
 **使用激光雷达作为传感器**
  - 运行launch文件（请查看launch文件参数说明，并进行调整）
-  		roslaunch prometheus_gazebo sitl_fast_planning_3dlidar.launch 
+    		roslaunch prometheus_gazebo sitl_fast_planning_3dlidar.launch 
  - 在打开的rviz窗口中勾选`Fast_Planner`、`Octomap_Mapping`及`Ground_Truth`显示
  - 输入3选择Fast Planner算法，无人机将自动起飞
  - 在rviz中通过3D Nav Goal按钮指定目标点，点选该按钮后，同时按住鼠标左右键在rviz窗口中选择一点向上拉
@@ -183,20 +183,28 @@ Bspline轨迹位于bspline_opt文件夹，用于轨迹生成。将混合A*的输
  		rostopic pub /prometheus/planning/goal ...
  - 通过终端查看算法相关信息
    [![G6cw9K.md.png](https://s1.ax1x.com/2020/04/07/G6cw9K.md.png)](https://imgchr.com/i/G6cw9K)
-  
+
   运行截图
-  
+
   [![GOCplR.md.png](https://s1.ax1x.com/2020/04/12/GOCplR.md.png)](https://imgchr.com/i/GOCplR)
-  
+
 **使用RGBD相机作为传感器**
  - 运行launch文件（请查看launch文件参数说明，并进行调整）
-  		roslaunch prometheus_gazebo sitl_fast_planning_rgbd.launch 
+    		roslaunch prometheus_gazebo sitl_fast_planning_rgbd.launch 
  - 在打开的rviz窗口中勾选`Fast_Planner`,`RTAB建图`及`Ground_Truth`显示
  - 其他同上
- 
+
  运行截图
 
 	[![GOCvHf.md.png](https://s1.ax1x.com/2020/04/12/GOCvHf.md.png)](https://imgchr.com/i/GOCvHf)
+
+
+**说明**
+
+- Fastplanner为轨迹追踪，需选择轨迹追踪控制器及对相关控制参数进行调试
+  - 修改参数配置文件`px4_pos_controller.yaml`中**controller_number**参数为１（PID控制器）
+- 追踪新的轨迹时，无人机偶尔会出现倒退的现象，猜测原因：1 轨迹追踪超调　2 规划的轨迹略滞后于当前位置。暂未找到合适的解决方法
+
 ## 真实环境中运行  
-  
+
 
