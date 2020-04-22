@@ -128,6 +128,112 @@ Input->Image Dir， 找到需要标注的图像所在文件夹 Ctrl+A，全选�
 ![fig16](https://spire.imdo.co/images/2004/spire-tools-15.jpg)
 
 
+## 开始在 Yolo 上训练自己的数据
+
+
+教程 darknet 路径为 /home/jario/darknet，本文以此为例。请根据自己的路径进行修改
+在 /home/jario/darknet/cfg/ 文件夹下新建一个文件，名字叫 my_dataset.data 在里面写入：
+
+```
+classes = 1
+train = /home/jario/darknet/data/coco/my_dataset_train.txt valid = /home/jario/darknet/data/coco/my_dataset_train.txt names = data/my_dataset.names
+backup = backup eval=coco
+```
+
+> 注意：classes 为类别数量，对于单类检测问题，写 1
+
+1. 在 /home/jario/darknet/data 中新建文件夹 coco
+2. 将 Yolo_20180908_234114.txt 复制到 /home/jario/darknet/data/coco，并改名为 my_dataset_train.txt
+3. 在 /home/jario/darknet/data/coco 中新建 2 个文件夹 images, labels
+4. 将 scaled_images 文件夹 复制到 /home/jario/darknet/data/coco/images，并重命名为 train
+5. 将 Yolo_labels 文件夹 复制到 /home/jario/darknet/data/coco/labels，并重命名为 train
+6. 将 Yolo_categories.names 复制到 /home/jario/darknet/data，并重命名为my_dataset.names
+
+将 /home/jario/darknet/cfg/yolov3-tiny.cfg 复制一份，重命名为 yolov3-tiny- train.cfg
+打开刚刚重命名的文件/home/jario/darknet/cfg/yolov3-tiny-train.cfg 将前 7 行改为
+
+```
+[net]
+# Testing # batch=1
+# subdivisions=1 # Training batch=64 subdivisions=2
+```
+
+> 注意：对于显存比较小的用户，需要将 batch=64 改为 32 或 16
+
+下载训练权重初值，https://pjreddie.com/media/files/darknet53.conv.74 ，并放到/home/jario/darknet 目录
+
+准备已经完成，在终端下进入 /home/jario/darknet，目录用下面的命令开始训练
+
+```
+./darknet detector train cfg/my_dataset.data cfg/yolov3-tiny-train.cfg darknet53.conv.74
+```
+
+> 注意：如果出现如下错误
+
+![fig17](https://spire.imdo.co/images/2004/spire-tools-20.jpg)
+
+需要修改源码/home/jario/darknet/src/data.c 
+
+将如下代码
+
+```
+list *get_paths(char *filename)
+{
+  char *path;
+  FILE *file = fopen(filename, "r"); 
+  if(!file) 
+    file_error(filename); 
+  list *lines = make_list(); 
+  while((path=fgetl(file))) {
+    list_insert(lines, path);
+  }
+  fclose(file); 
+  return lines;
+}
+```
+
+修改为
+
+```
+void ltrim(char *s)
+{
+char *p; p = s;
+while (*p == ' ' || *p == '\t' || *p == '\r') { p++; } strcpy(s,p);
+}
+
+
+void rtrim(char *s)
+{
+int i;
+i = strlen(s) - 1;
+while ((s[i] == ' ' || s[i] == '\t' || s[i] == '\r') && i >= 0 ) { i--; } s[i+1] = '\0';
+}
+
+void _trim(char *s)
+{
+ltrim(s);
+rtrim(s);
+}
+
+list *get_paths(char *filename)
+{
+char *path;
+FILE *file = fopen(filename, "r"); if(!file) file_error(filename); list *lines = make_list(); while((path=fgetl(file))){
+_trim(path); list_insert(lines, path);
+}
+fclose(file); return lines;
+}
+```
+
+
+保存，make -j8 重新编译
+
+等待训练完成，训练结果会保存在 /home/jario/darknet/backup 中
+
+下面为训练时画面
+
+![fig18](https://spire.imdo.co/images/2004/spire-tools-21.jpg)
+
 ## 如何进行真机实验？  
 
 待补充  
