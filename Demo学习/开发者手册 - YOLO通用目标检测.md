@@ -94,11 +94,38 @@ Input->Image Dir， 找到需要标注的图像所在文件夹 Ctrl+A，全选�
 
 ![fig8](https://spire.imdo.co/images/2004/spire-tools-5.png)
 
-
-
 点击，Tools->Annotate Image->Instance Label，开始标注图像
 
+![fig9](https://spire.imdo.co/images/2004/spire-tools-6.png)
 
+在 label 中填写待标注目标名称，然后将对话框拖到一边
+在主窗口中开始标注，鼠标滚轮放大缩小图像，按住左键移动可视图像区域不断点击左键将目标框包围，
+使用 Yolo 训练时，点击 4 个点即可，不需要详细分割
+
+![fig10](https://spire.imdo.co/images/2004/spire-tools-7.png)
+
+![fig11](https://spire.imdo.co/images/2004/spire-tools-10.jpg)
+
+![fig12](https://spire.imdo.co/images/2004/spire-tools-11.jpg)
+
+标注时，如果点错，可以按 Ctrl+Z 撤销
+标注完成后，如果不满意，可以点击绿色边框(边框会变红，如下图所示)，按Delete 删除
+
+![fig13](https://spire.imdo.co/images/2004/spire-tools-12.jpg)
+
+#### 将标注输出为 Yolo 格式，准备训练
+
+在标注完成之后，按下 Ctrl+O
+
+![fig14](https://spire.imdo.co/images/2004/spire-tools-13.jpg)
+
+点击确定后
+
+![fig15](https://spire.imdo.co/images/2004/spire-tools-14.jpg)
+
+然后将下面 4 个文件取出用于 Yolo 训练
+
+![fig16](https://spire.imdo.co/images/2004/spire-tools-15.jpg)
 
 
 ## 如何进行真机实验？  
