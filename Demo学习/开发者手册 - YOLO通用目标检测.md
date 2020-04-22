@@ -1,26 +1,47 @@
-# 数字识别
+# YOLO通用目标识别
   
 本教程的目的：
- - 理解数字识别程序背后的原理
- - 掌握数字识别程序，并能够进行二次开发
- - 学会使用数字识别程序的接口，完成与数字识别相关的飞行任务
+ - 掌握YOLO通用目标检测程序，并能够进行二次开发
+ - 学会训练自己的数据集
+ - 学会使用YOLO程序的接口，完成相关的飞行任务
 
 
 ## 准备工作
 
-- 安装python2运行时环境，pytorch和opencv-python
-	
-    `pip install torch==1.4.0+cpu torchvision==0.5.0+cpu -f https://download.pytorch.org/whl/torch_stable.html`
-	
-    `pip install opencv-python=='3.4.2.16'`
-- 如果出现以下报错：No module named 'skbuild'，执行：
+#### opencv 3.3.1 安装
 
-	`pip install scikit-build`
-- 如果出现以下报错：ft2build.h: No such file or directory，执行：
-	
-    `sudo apt-get install libfreetype6-dev`
-	
-    `sudo apt-get install libpng-dev`
+- 下载 opencv 3.3.1 源码
+
+> 下载地址：http://192.168.1.212/upload/opencv-3.3.1.zip
+
+解压 opencv 3.3.1
+```
+cd opencv-3.3.1 
+mkdir build
+sudo apt-get install cmake 
+cd build
+cmake ..
+```
+
+> 注意 IPPICV: Download: ippicv_2017u3_lnx_intel64_general_20170822.tgz 
+> 如果遇到下载问题，请多次重试
+
+```
+make -j8
+sudo make install
+```
+
+- 安装NVIDIA显卡驱动，CUDA与CUDNN
+
+1. 官方教程https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-installation
+
+2. 在http://developer.nvidia.com/cuda-downloads上下载安装包
+
+![nvidia cuda](https://spire.imdo.co/images/2004/1656228-20190709172033436-1570003711.png)
+
+3. 到安装文件目录下运行.run文件，输入accept
+
+
 
 ## 识别算法介绍
 
