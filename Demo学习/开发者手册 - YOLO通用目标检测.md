@@ -10,9 +10,7 @@
 
 #### opencv 3.3.1 安装
 
-- 下载 opencv 3.3.1 源码
-
-> 下载地址：http://192.168.1.212/upload/opencv-3.3.1.zip
+> 下载 opencv 3.3.1 源码，下载地址：http://192.168.1.212/upload/opencv-3.3.1.zip
 
 解压 opencv 3.3.1
 ```
@@ -31,15 +29,39 @@ make -j8
 sudo make install
 ```
 
-- 安装NVIDIA显卡驱动，CUDA与CUDNN
+#### 安装NVIDIA显卡驱动，CUDA与CUDNN
 
-1. 官方教程https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-installation
+1. 官方教程 [https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-installation](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-installation)
 
-2. 在http://developer.nvidia.com/cuda-downloads上下载安装包
+2. 在 [http://developer.nvidia.com/cuda-downloads](http://developer.nvidia.com/cuda-downloads) 上下载安装包
 
-![nvidia cuda](https://spire.imdo.co/images/2004/1656228-20190709172033436-1570003711.png)
+![fig1](https://spire.imdo.co/images/2004/1656228-20190709172033436-1570003711.png)
 
 3. 到安装文件目录下运行.run文件，输入accept
+
+```
+sudo sh cuda_10.1.168_418.67_linux.run
+```
+
+4. 根据自身选择要不要安装Nvidia显卡驱动
+
+![fig2](https://spire.imdo.co/images/2004/1656228-20190709172606285-197126065.png)
+
+因为我们只是调用CUDA，不去写CUDA程序，所以Samples也可以不安装
+
+![fig3](https://spire.imdo.co/images/2004/1656228-20190709172730248-1234756893.png)
+
+
+5. 添加环境变量 
+
+```
+vi ~/.bashrc
+# 在文件末尾添加
+export PATH="/usr/local/cuda-10.1/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/lcoal/cuda-10.1/lib64:$LD_LIBRARY_PATH"
+# 最后使其生效
+source ~/.bashrc
+```
 
 
 
