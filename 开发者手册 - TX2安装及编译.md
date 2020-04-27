@@ -63,3 +63,7 @@ mkdir build && cd build
 cmake ..
 make
 ```
+
+### 编译过程中问题及解决
+
+https://blog.csdn.net/AlexWang30/article/details/99612188
