@@ -66,4 +66,11 @@ make
 
 ### 编译过程中问题及解决
 
+编译过程出现缺少boostdesc_bgm.i的解决方法：
+
 https://blog.csdn.net/AlexWang30/article/details/99612188
+
+编译过程出现无法打开包括文件: “opencv2/xfeatures2d/cuda.hpp”一类问题的的解决方法‘
+
+将无法找到的头文件相对路径改为该文件的绝对路径，编译通过。
+
