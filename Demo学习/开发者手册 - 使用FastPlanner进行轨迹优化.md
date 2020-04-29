@@ -157,7 +157,7 @@ Bspline轨迹位于bspline_opt文件夹，用于轨迹生成。将混合A*的输
 
 发布话题：  
 
-    "/prometheus/planning/position_cmd": 给无人机控制指令
+    "/prometheus/planning/fastplanner/desired_trajecotry": 给无人机控制指令
     "/prometheus/planning/traj":  显示轨迹
     "/prometheus/planning/state":   显示运动
 

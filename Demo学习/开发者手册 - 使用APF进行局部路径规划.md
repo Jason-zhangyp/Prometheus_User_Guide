@@ -31,7 +31,7 @@ APF参考阅读: http://kovan.ceng.metu.edu.tr/~kadir/academia/courses/grad/cs54
 -  "/prometheus/planning/goal"，目标点坐标，目标点是在全局坐标系map下给出的 
 
 发布话题：
- - "/prometheus/local_planner/desired_vel"  ， 全局坐标系下的期望速度    
+ - "/prometheus/planning/apf/desired_vel"  ， 全局坐标系下的期望速度    
  - "/prometheus/planning/stop_cmd"  ，当前飞行器是否安全     
 
 **apf.cpp**
@@ -77,11 +77,11 @@ APF参考阅读: http://kovan.ceng.metu.edu.tr/~kadir/academia/courses/grad/cs54
 
 主要订阅话题：
  - 全局规划算法发布的路径指令 
- 		ros::Subscriber global_planner_sub = nh.subscribe<nav_msgs::Path>("/prometheus/planning/path_cmd", 50, global_planner_cmd_cb);
+ 		ros::Subscriber global_planner_sub = nh.subscribe<nav_msgs::Path>("/prometheus/planning/a_star/desired_path", 50, global_planner_cmd_cb);
  - 局部规划算法发布的速度指令
-		ros::Subscriber local_planner_sub  =    nh.subscribe<geometry_msgs::Point>("/prometheus/local_planner/desired_vel", 50, local_planner_cmd_cb);
+		ros::Subscriber local_planner_sub  =    nh.subscribe<geometry_msgs::Point>("/prometheus/planning/apf/desired_vel", 50, local_planner_cmd_cb);
  - FastPlanner算法发布的控制指令（期望轨迹）
-  		ros::Subscriber fast_planner_sub   =    nh.subscribe<prometheus_msgs::PositionReference>("/prometheus/planning/position_cmd", 50, fast_planner_cmd_cb);
+  		ros::Subscriber fast_planner_sub   =    nh.subscribe<prometheus_msgs::PositionReference>("/prometheus/planning/fastplanner/desired_trajecotry", 50, fast_planner_cmd_cb);
  -  紧急停止指令
  		ros::Subscriber stop_cmd_sub = nh.subscribe<std_msgs::Int8>("/prometheus/planning/stop_cmd", 10, stop_cmd_cb);  
 

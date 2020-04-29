@@ -43,7 +43,7 @@
 
 
 发布话题：
- - "/prometheus/planning/path_cmd"， A_star生成的轨迹指令
+ - "/prometheus/planning/a_star/desired_path"， A_star生成的轨迹指令
  - "/prometheus/planning/stop_cmd"， 当前是否安全的状态指令
  - "/prometheus/planning/global_map_marker"， 地图可视化话题
 
