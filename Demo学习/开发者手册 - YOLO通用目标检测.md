@@ -10,7 +10,7 @@
 
 #### opencv 3.3.1 安装
 
-> 下载 opencv 3.3.1 源码，下载地址：http://192.168.1.212/upload/opencv-3.3.1.zip
+> 下载 opencv 3.3.1 源码，下载地址：http://121.36.68.10//upload/opencv-3.3.1.zip
 
 解压 opencv 3.3.1
 ```
