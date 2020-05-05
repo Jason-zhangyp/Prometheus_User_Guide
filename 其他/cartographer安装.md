@@ -14,7 +14,11 @@
 
 
 
+二进制安装
 
+```
+sudo apt-get install ros-melodic-cartographer*
+```
 
 ## 验证安装是否正确
 
