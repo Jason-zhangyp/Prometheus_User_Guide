@@ -582,24 +582,44 @@ sdkmanager
 
 ## 编译Prometheus代码
 
+安装依赖库
 ```
-catkin_make -DCMAKE_BUILD_TYPE=Release
+sudo apt install ros-melodic-tf2-eigen
+sudo apt-get install ros-melodic-mavros ros-melodic-mavros-extras
+wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
+./install_geographiclib_datasets.sh
+```
+下载编译源码
+```
+git clone https://github.com/amov-lab/Prometheus.git
+cd Prometheus
+./complie_detection.sh
+echo "source (Path To Prometheus)/devel/setup.bash" >> ~/.bashrc
+source ~/.bashrc
 ```
 
-
-> 注意：进行检测，需要先打开一个ros_web_cam节点，以提供摄像头数据
-
-
+> 注意修改`(Path To Prometheus)`为你自己的`Prometheus`路径
 
 ## 运行YOLOv3-Tiny检测
+
+运行指令
+```
+roscore
+# 需要先打开一个web_cam节点，以提供摄像头数据
+rosrun prometheus_detection web_cam
+# 运行COCO检测（80类）
+roslaunch prometheus_detection ms_coco_det.launch
+# 运行UAV检测
+roslaunch prometheus_detection uav_det.launch
+```
 
 ## 部署自定义模型
 
 * 将训练好的cfg和weights加载到darknet_ros中
 
 将`/home/user/darknet/cfg/yolov3-tiny.cfg`和`/home/user/darknet/backup`中刚刚训练好的参数
-分别拷贝到`/home/user/catkin_ws/src/darknet_ros/darknet_ros/yolo_network_config`中的`cfg`和`weights`两个文件夹中
-在`/home/user/catkin_ws/src/darknet_ros/darknet_ros/config`文件夹中新建`yolov3-tiny-obj.yaml`
+分别拷贝到`/home/user/Prometheus/Modules/object_detection/src/darknet_ros/yolo_network_config`中的`cfg`和`weights`两个文件夹中
+在`/home/user/Prometheus/Modules/object_detection/src/darknet_ros/config`文件夹中新建`yolov3-tiny-obj.yaml`
 
 里面写入
 
@@ -630,6 +650,10 @@ yolo_model:
 
 > 注意：这正式刚才编写的yaml文件
 
+运行
+```
+roslaunch prometheus_detection obj_det.launch
+```
 
 ## 实际场景测试
 
