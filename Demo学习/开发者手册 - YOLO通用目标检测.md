@@ -658,5 +658,6 @@ roslaunch prometheus_detection obj_det.launch
 ## 实际场景测试
 
 
+<iframe src="//player.bilibili.com/player.html?aid=94048349&bvid=BV1GE411s7hC&cid=160563053&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
   
 
