@@ -657,7 +657,16 @@ roslaunch prometheus_detection obj_det.launch
 
 ## 实际场景测试
 
+* 算法精度量化评价（MS-COCO数据集）
 
-[video1](https://www.bilibili.com/video/BV1PK411s77D/)
+轻量级算法 | AP | AP50 | AP75 | APs | APm | APl |
+- | :-: | :-: | :-: | :-: | :-: | :-:
+YOLOv3-Tiny | 9.3 | 19.9 | 7.7 | 0.1 | 6.9 | 25.8 |
+YOLOv3-Tiny-prn | 16.6 | 38.2 | 12.0 | 4.9 | 19.0 | 26.0 |
+EfficientNet-D0 | 30.9 | 58.7 | 29.7 | 11.7 | 36.0 |47.7|
+
+
+
+无人机检测测试视频：[video1](https://www.bilibili.com/video/BV1PK411s77D/)
   
 
