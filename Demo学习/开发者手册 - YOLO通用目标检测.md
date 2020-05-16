@@ -657,12 +657,19 @@ roslaunch prometheus_detection obj_det.launch
 
 ## 实际场景测试
 
+
 #### 算法精度量化评价（MS-COCO数据集）
 
 
 ![](https://spire.imdo.co/images/2005/YOLOv4-tiny-ap.jpg)
 
 无人机检测测试视频：[video1](https://www.bilibili.com/video/BV1PK411s77D/)
+
+#### 相机购买
+
+* 我们的测试相机是在如下淘宝店购买的（仅供参考）：https://item.taobao.com/item.htm?_u=g5bpko475d4&id=605447137649
+
+![](https://spire.imdo.co/images/2005/yolo-camera.jpg)
 
 #### 相机标定
 
@@ -680,6 +687,24 @@ rosrun camera_calibration cameracalibrator.py --size 8x6 --square 0.0245 image:=
 * 将得到的参数写入如下文件(有关目标尺度的预定义也在这个文件中)：`Prometheus/Modules/object_detection/config/camera_param.yaml`，例如参数如下：
 
 ![](https://spire.imdo.co/images/2005/camera-calib-example.png)
+
+* 标定板样张如下
+
+![](https://spire.imdo.co/images/2005/chessboard.jpg)
+
+
+#### 目标距离估计误差
+
+* 以行人检测为例，结果如下，设置行人高度为1.7m，并以此估计相机到目标的距离
+
+![](https://spire.imdo.co/images/2005/YOLOv4-depth-err.jpg)
+
+* 对于行人，90度视场角的相机，检测范围在1-20m，测距误差大概为距离的百分之6。
+
+#### 在TX2上的运行速度
+
+* YOLOv3-Tiny在TX2运行速度在**18-22HZ**之间
+
 
   
 
