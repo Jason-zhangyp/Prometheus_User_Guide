@@ -657,16 +657,14 @@ roslaunch prometheus_detection obj_det.launch
 
 ## 实际场景测试
 
-* 算法精度量化评价（MS-COCO数据集）
+#### 算法精度量化评价（MS-COCO数据集）
 
 
 ![](https://spire.imdo.co/images/2005/YOLOv4-tiny-ap.jpg)
 
 无人机检测测试视频：[video1](https://www.bilibili.com/video/BV1PK411s77D/)
 
-* 相机标定
-
-棋盘格标定板下载地址：[Chessboard](https://spire.imdo.co/images/2005/qipangebiaoding.jpg)
+#### 相机标定
 
 ```
 # 首先启动相机节点，如下命令启动相机ID=0
@@ -676,8 +674,9 @@ rosrun camera_calibration cameracalibrator.py --size 8x6 --square 0.0245 image:=
 ```
 
 > 其中：size为标点板尺寸，square为每个方格宽度(m)，image:=相机话题
+> 棋盘格标定板下载地址：[Chessboard](https://spire.imdo.co/images/2005/qipangebiaoding.jpg)
 
-将得到的参数写入如下文件(有关目标尺度的预定义也在这个文件中)：`Prometheus/Modules/object_detection/config/camera_param.yaml`，例如参数如下：
+* 将得到的参数写入如下文件(有关目标尺度的预定义也在这个文件中)：`Prometheus/Modules/object_detection/config/camera_param.yaml`，例如参数如下：
 
 ![](https://spire.imdo.co/images/2005/camera-calib-example.png)
 
