@@ -660,7 +660,7 @@ roslaunch prometheus_detection obj_det.launch
 * 算法精度量化评价（MS-COCO数据集）
 
 
-![](https://spire.imdo.co/images/2004/YOLOv4-tiny-ap.jpg)
+![](https://spire.imdo.co/images/2005/YOLOv4-tiny-ap.jpg)
 
 
 无人机检测测试视频：[video1](https://www.bilibili.com/video/BV1PK411s77D/)
