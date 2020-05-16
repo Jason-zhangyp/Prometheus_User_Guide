@@ -673,8 +673,9 @@ roslaunch prometheus_detection web_cam0.launch
 rosrun camera_calibration cameracalibrator.py --size 8x6 --square 0.0245 image:=/prometheus/camera/rgb/image_raw
 ```
 
-> 其中：size为标点板尺寸，square为每个方格宽度(m)，image:=相机话题
-> 棋盘格标定板下载地址：[Chessboard](https://spire.imdo.co/images/2005/qipangebiaoding.jpg)
+* 其中：size为标点板尺寸，square为每个方格宽度(m)，image:=相机话题
+
+* 棋盘格标定板下载地址：[Chessboard](https://spire.imdo.co/images/2005/qipangebiaoding.jpg)
 
 * 将得到的参数写入如下文件(有关目标尺度的预定义也在这个文件中)：`Prometheus/Modules/object_detection/config/camera_param.yaml`，例如参数如下：
 
