@@ -64,6 +64,44 @@ KCF作为单目标跟踪的经典之作，在准确率和实时性上都有非�
 
 ## 如何进行真机实验？  
 
-待补充  
+#### 相机购买
+
+* 我们的测试相机是在如下淘宝店购买的（仅供参考）：https://item.taobao.com/item.htm?_u=g5bpko475d4&id=605447137649
+
+![](https://spire.imdo.co/images/2005/yolo-camera.jpg)
+
+#### 相机标定
+
+```
+# 首先启动相机节点，如下命令启动相机ID=0
+roslaunch prometheus_detection web_cam0.launch
+# 然后利用ros自带的标定程序对相机进行标定
+rosrun camera_calibration cameracalibrator.py --size 8x6 --square 0.0245 image:=/prometheus/camera/rgb/image_raw
+```
+
+* 其中：size为标点板尺寸，square为每个方格宽度(m)，image:=相机话题
+
+* 棋盘格标定板下载地址：[Chessboard](https://spire.imdo.co/images/2005/qipangebiaoding.jpg)
+
+* 将得到的参数写入如下文件(有关目标尺度的预定义也在这个文件中)：`Prometheus/Modules/object_detection/config/camera_param.yaml`，例如参数如下：
+
+![](https://spire.imdo.co/images/2005/camera-calib-example.png)
+
+* 标定板样张如下
+
+![](https://spire.imdo.co/images/2005/chessboard.jpg)
+
+
+#### 目标距离估计误差
+
+* 以行人跟踪为例，结果如下，在`Prometheus/Modules/object_detection/config/camera_param.yaml`中设置行人高度`kcf_tracker_h`为1.7m，并以此估计相机到目标的距离
+
+![](https://spire.imdo.co/images/2005/kcf-depth-err.jpg)
+
+* 对于行人，90度视场角的相机，检测范围在1-20m，测距误差大概为距离的百分之19。
+
+#### 在TX2上的运行速度
+
+* KCF算法在TX2运行速度在**25-30HZ**之间
   
 
