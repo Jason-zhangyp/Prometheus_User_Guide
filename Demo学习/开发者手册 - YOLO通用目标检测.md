@@ -695,7 +695,7 @@ rosrun camera_calibration cameracalibrator.py --size 8x6 --square 0.0245 image:=
 
 #### 目标距离估计误差
 
-* 以行人检测为例，结果如下，设置行人高度为1.7m，并以此估计相机到目标的距离
+* 以行人检测为例，结果如下，在`Prometheus/Modules/object_detection/config/camera_param.yaml`设置行人高度`yolo_det_person_height`为1.7m，并以此估计相机到目标的距离
 
 ![](https://spire.imdo.co/images/2005/YOLOv4-depth-err.jpg)
 
