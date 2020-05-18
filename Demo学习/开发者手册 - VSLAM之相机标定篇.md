@@ -140,7 +140,35 @@ kalibr_calibrate_cameras --bag /home/colin/datasets/stereo_calibration.bag --top
 
 ### Camera-IMU标定
 
+1. 数据采集
 
+使用官方推荐的频率设置，IMU200hz，图像20hz，录制rosbag：
+
+```
+rosbag record -O dynamic /mynteye/left/image_raw /mynteye/right/image_raw /mynteye/imu/data_raw
+```
+
+2. 进行标定
+
+```
+kalibr_calibrate_imu_camera --target /home/colin/datasets/checkerboard.yaml --cam /home/colin/datasets/second/camchain_stereo_mynt.yaml --imu /home/colin/datasets/second/imu.yaml --bag /home/colin/datasets/dynamic.bag --bag-from-to 1 105
+```
+
+3. 输出文件
+
+- **report-imucam-%BAGNAME%.pdf**
+
+  包含所有标定结果
+
+  [![YWU0E9.md.png](https://s1.ax1x.com/2020/05/18/YWU0E9.md.png)](https://imgchr.com/i/YWU0E9)
+
+- **results-imucam-%BAGNAME%.txt**
+
+- **camchain-imucam-%BAGNAME%.yaml**
+
+  该结果基于双目相机外参结果，同时加入了相机坐标系与IMU坐标系的转换
+
+  [![YWU2uD.md.png](https://s1.ax1x.com/2020/05/18/YWU2uD.md.png)](https://imgchr.com/i/YWU2uD)
 
 ## RGBD相机
 
