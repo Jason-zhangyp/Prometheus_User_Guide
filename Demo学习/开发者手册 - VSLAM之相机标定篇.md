@@ -6,7 +6,7 @@ S1030-ir和realsense D435i两款
 
 ## 双目相机启动：Mynteye-S1030-ir
 
-https://slightech.github.io/MYNT-EYE-S-SDK-Guide/src/slam/how_to_use_kalibr.html
+参照小觅标准版官方[标定过程](https://slightech.github.io/MYNT-EYE-S-SDK-Guide/src/slam/how_to_use_kalibr.html)
 
 双目选用的款式为小觅的标准款，从官方github下载[SDK](https://github.com/slightech/MYNT-EYE-S-SDK)，并进行编译：
 
@@ -93,11 +93,11 @@ source ~/kalibr_workspace/devel/setup.bash
 
 1. 图像采集
 
-将相机固定，移动标定板以获得标定图像，官方建议降低图像发布频率到4hz，使用ros throttle的工具可以实现对两个相机分别降频，但问题在于经过实测，这样降低频率会造成双目图像不同布，如下图所是：
+将相机固定，移动标定板以获得标定图像，官方建议降低图像发布频率到4hz，使用ros throttle的工具可以实现对两个相机分别降频，但问题在于经过实测，这样降低频率会造成双目图像不同步，如下图所示：
 
 [![YR25uR.md.png](https://s1.ax1x.com/2020/05/17/YR25uR.md.png)](https://imgchr.com/i/YR25uR)
 
-所以在此不建议采用此方法，本次标定使用的方法是修改上述配置参数的方式，虽然只能降低至最低10hz，经测试并不影响效果，但实现了毫米级同步，对于最终的标定效果有力：
+所以在此不建议采用此方法，本次标定使用的方法是修改上述配置参数的方式，虽然只能降低至最低10hz，经测试并不影响效果，但实现了毫秒级同步，这个同步效果对标定而言很理想：
 
 [![YRRSbt.md.png](https://s1.ax1x.com/2020/05/17/YRRSbt.md.png)](https://imgchr.com/i/YRRSbt)
 
@@ -117,7 +117,22 @@ rosbag record /mynteye/left/image_w /mynteye/right/image_raw -O stereo_calibrati
 
 - 相机的畸变模型，kalibr所支持的[畸变模型](https://github.com/ethz-asl/kalibr/wiki/supported-models)
 
-- 标定版参数。此处使用的方格(checkboard)标定版，需要设置角点的xy方向的数量及方格尺寸
+- 标定版参数。此处使用的方格(checkboard)标定版，需要设置角点的xy方向的数量及方格尺寸：
+
+  ```
+  #Accelerometers
+  accelerometer_noise_density: 0.02680146180736048   #Noise density (continuous-time)
+  accelerometer_random_walk:   0.0026296086159332804   #Bias random walk
+  
+  #Gyroscopes
+  gyroscope_noise_density:     0.008882328296710996   #Noise density (continuous-time)
+  gyroscope_random_walk:       0.00037956578292701033   #Bias random walk
+  
+  rostopic:                    /mynteye/imu/data_raw      #the IMU ROS topic
+  update_rate:                 200.0      #Hz (for discretization of the values above)
+  ```
+
+  运行如下命令进行标定
 
 ```
 cd ~/kalibr_workspace
@@ -132,7 +147,7 @@ kalibr_calibrate_cameras --bag /home/colin/datasets/stereo_calibration.bag --top
 [![YR4ot0.md.png](https://s1.ax1x.com/2020/05/17/YR4ot0.md.png)](https://imgchr.com/i/YR4ot0)
 
 - **results-cam-%BAGNAME%.txt**：结果总结
-- **camchain-%BAGNAME%.yaml**：此文件用于下一步camera-imu的标定
+- **camchain-%BAGNAME%.yaml**：相机内参外参畸变系数结果，此文件用于下一步camera-imu的标定
 
 ### IMU参数
 
