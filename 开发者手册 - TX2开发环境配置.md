@@ -1,10 +1,19 @@
-﻿# TX2安装及编译
+﻿# TX2开发环境部署
+虽然最新版JetPack已经使用OpenCV4，但是因为该版本的orbslam以及相机的sdk依然依赖OpenCV3，所以首先安装低版本的OpenCV，此处安装编译的版本是3.4.3版本，可以使用install_opencv3.4.3_Jetson.sh进行安装
+## 编译过程中问题及解决
+
+编译过程出现缺少boostdesc_bgm.i的解决方法：
+
+https://blog.csdn.net/AlexWang30/article/details/99612188
+
+编译过程出现无法打开包括文件: “opencv2/xfeatures2d/cuda.hpp”一类问题的的解决方法‘
+
+将无法找到的头文件相对路径改为该文件的绝对路径，编译通过。
 
 ## GPU加速版本的dataflow-orbslam
 
 参考https://github.com/xaldyz/dataflow-orbslam， 论文
 
-考虑到最新版JetPack已经使用OpenCv4，可选用该版本安装：https://github.com/jobesu14/dataflow-orbslam/tree/opencv4_support  需要于opencv-contrib modules一起编译，安装命令：https://github.com/AastaNV/JEP/blob/master/script/install_opencv4.1.1_Jetson.sh
 
 ### 设置JetPack
 
@@ -64,13 +73,5 @@ cmake ..
 make
 ```
 
-### 编译过程中问题及解决
 
-编译过程出现缺少boostdesc_bgm.i的解决方法：
-
-https://blog.csdn.net/AlexWang30/article/details/99612188
-
-编译过程出现无法打开包括文件: “opencv2/xfeatures2d/cuda.hpp”一类问题的的解决方法‘
-
-将无法找到的头文件相对路径改为该文件的绝对路径，编译通过。
 
