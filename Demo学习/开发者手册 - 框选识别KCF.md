@@ -103,5 +103,7 @@ rosrun camera_calibration cameracalibrator.py --size 8x6 --square 0.0245 image:=
 #### 在TX2上的运行速度
 
 * KCF算法在TX2运行速度在**25-30HZ**之间
+
+实际测试视频：[video](https://www.bilibili.com/video/BV1hK411W7FU/)
   
 
