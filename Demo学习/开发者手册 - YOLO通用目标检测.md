@@ -114,7 +114,7 @@ sudo make install
 
 2. 在 [cuda-downloads](http://developer.nvidia.com/cuda-downloads) 上下载安装包
 
-  ![](https://spire.imdo.co/images/2004/1656228-20190709172033436-1570003711.png)
+  ![](http://jario.ren/images/2004/1656228-20190709172033436-1570003711.png)
 
 3. 到安装文件目录下运行.run文件，输入accept
 
@@ -124,11 +124,11 @@ sudo make install
 
 4. 根据自身选择要不要安装Nvidia显卡驱动
 
-  ![](https://spire.imdo.co/images/2004/1656228-20190709172606285-197126065.png)
+  ![](http://jario.ren/images/2004/1656228-20190709172606285-197126065.png)
 
   因为我们只是调用CUDA，不去写CUDA程序，所以Samples也可以不安装
 
-  ![](https://spire.imdo.co/images/2004/1656228-20190709172730248-1234756893.png)
+  ![](http://jario.ren/images/2004/1656228-20190709172730248-1234756893.png)
 
 
 5. 添加环境变量 
@@ -238,54 +238,54 @@ sudo make install
 
 首先点击Tools->Setting...，填写一个 save path (所有的标注文件都会存储在这个文件夹中)
 
-![](https://spire.imdo.co/images/2004/spire-tools-save-path.jpg)
+![](http://jario.ren/images/2004/spire-tools-save-path.jpg)
 
 如果采集的数据集是视频 (**如果采集的是图像，则调过这一步骤**)，点击 Input->Video， 选择要标注的视频。
 
-![](https://spire.imdo.co/images/2004/spire-tools-open-video.jpg)
+![](http://jario.ren/images/2004/spire-tools-open-video.jpg)
 
 然后，点击Tools->Video to Image
 
-![](https://spire.imdo.co/images/2004/spire-tools-image2video.jpg)
+![](http://jario.ren/images/2004/spire-tools-image2video.jpg)
 
 点击OK 后，等待完成，结果会存储在
 
-![](https://spire.imdo.co/images/2004/spire-tools-20200430182601.jpg)
+![](http://jario.ren/images/2004/spire-tools-20200430182601.jpg)
 
 #### 打开需要标注的图像
 
 Input->Image Dir， 找到需要标注的图像所在文件夹 Ctrl+A，全选，打开
 
-![](https://spire.imdo.co/images/2004/spire-tools-20200430182620.jpg)
+![](http://jario.ren/images/2004/spire-tools-20200430182620.jpg)
 
 点击，Tools->Annotate Image->Instance Label，开始标注图像
 
-![](https://spire.imdo.co/images/2004/spire-tools-start-label.jpg)
+![](http://jario.ren/images/2004/spire-tools-start-label.jpg)
 
 在 label 中填写待标注目标名称，然后将对话框拖到一边
 在主窗口中开始标注，鼠标滚轮放大缩小图像，按住左键移动可视图像区域不断点击左键将目标框包围，
 使用 Yolo 训练时，点击 2 个点即可
 
-![](https://spire.imdo.co/images/2004/spire-tools-double-click.jpg)
+![](http://jario.ren/images/2004/spire-tools-double-click.jpg)
 
 标注时，如果点错，按鼠标右键可以取消
 标注完成后，如果不满意，可以点击绿色边框(边框会变红，如下图所示)，按Delete 删除
 
-![](https://spire.imdo.co/images/2004/spire-tools-delete-label.jpg)
+![](http://jario.ren/images/2004/spire-tools-delete-label.jpg)
 
 #### 将标注输出为 Yolo 格式，准备训练
 
 在标注完成之后，按下 Ctrl+O
 
-![](https://spire.imdo.co/images/2004/spire-tools-20200430190745.jpg)
+![](http://jario.ren/images/2004/spire-tools-20200430190745.jpg)
 
 点击确定后
 
-![](https://spire.imdo.co/images/2004/spire-tools-20200430182711.jpg)
+![](http://jario.ren/images/2004/spire-tools-20200430182711.jpg)
 
 然后将下面 4 个文件取出用于 Yolo 训练
 
-![](https://spire.imdo.co/images/2004/spire-tools-20200430182747.jpg)
+![](http://jario.ren/images/2004/spire-tools-20200430182747.jpg)
 
 ## 开始训练YOLO
 
@@ -385,7 +385,7 @@ Input->Image Dir， 找到需要标注的图像所在文件夹 Ctrl+A，全选�
 
 > 注意：如果出现如下错误
 
-![](https://spire.imdo.co/images/2004/spire-tools-20.jpg)
+![](http://jario.ren/images/2004/spire-tools-20.jpg)
 
 需要修改源码`/home/user/darknet/src/data.c`
 将如下代码
@@ -437,7 +437,7 @@ list *get_paths(char *filename)
 保存，`make -j8`重新编译
 下面为正常训练时画面
 
-![](https://spire.imdo.co/images/2004/spire-tools-21.jpg)
+![](http://jario.ren/images/2004/spire-tools-21.jpg)
 
 ## 何时应该停止训练
 
@@ -457,7 +457,7 @@ list *get_paths(char *filename)
 
   例如，当训练9000次停止后，效果最好的模型可能是之前保存权重中的一个（7000,8000,9000），这是因为过拟合（Overfiting）现象。过拟合的表现可以解释为，在训练图像上检测效果很好，但是在其他图像上效果不佳，这时候就该尽早停止训练（**早停点**）。
 
-  ![](https://spire.imdo.co/images/2004/yolo-v4-20200501010957.jpg)
+  ![](http://jario.ren/images/2004/yolo-v4-20200501010957.jpg)
 
 2.1 首先，你需要在`obj.data`中指定验证数据集`valid=valid.txt`，如果你没有准备验证数据集，可以简单的复制`data\train.txt`为`data\valid.txt`。
 
@@ -477,7 +477,7 @@ list *get_paths(char *filename)
 
 结果如下图所示，mAP每4期（Epoch）通过`obj.data`中设置的验证集`valid=valid.txt`上计算一次（1期=`train_txt中图像数量 / batch` 次迭代）。
 
-![](https://spire.imdo.co/images/2004/yolov4-map.jpg)
+![](http://jario.ren/images/2004/yolov4-map.jpg)
 
 运行训练好的模型，进行目标检测，执行：
 
@@ -549,7 +549,7 @@ list *get_paths(char *filename)
 
 * 下载JetPack，地址：https://developer.nvidia.com/embedded/jetpack
 
-![](https://spire.imdo.co/images/2004/jetpack-20200430203428.jpg)
+![](http://jario.ren/images/2004/jetpack-20200430203428.jpg)
 
 * 进入 sdkmanager-[version].[build].deb 所在的路径，其中version和build代表相应各自的编号，安装Debian包:
 
@@ -571,11 +571,11 @@ sdkmanager
   * 在 Target Operating System 中选择 JetPack 的版本.
   * 点击CONTINUE进入下一步
 
-![](https://spire.imdo.co/images/2004/jetpack-20200430204105.jpg)
+![](http://jario.ren/images/2004/jetpack-20200430204105.jpg)
 
 * 检查下载组件（如果仅安装CUDA和cuDNN，则只勾选红圈内的选项）、选择存储路径以及接收条款
 
-![](https://spire.imdo.co/images/2004/jetpack-20200430204149.jpg)
+![](http://jario.ren/images/2004/jetpack-20200430204149.jpg)
 
 * 保证Host计算机与TX2在同一局域网内，输入TX2的IP地址就可以安装
 
@@ -661,7 +661,7 @@ roslaunch prometheus_detection obj_det.launch
 #### 算法精度量化评价（MS-COCO数据集）
 
 
-![](https://spire.imdo.co/images/2005/YOLOv4-tiny-ap.jpg)
+![](http://jario.ren/images/2005/YOLOv4-tiny-ap.jpg)
 
 无人机检测测试视频：[video1](https://www.bilibili.com/video/BV1PK411s77D/)
 
@@ -669,7 +669,7 @@ roslaunch prometheus_detection obj_det.launch
 
 * 我们的测试相机是在如下淘宝店购买的（仅供参考）：https://item.taobao.com/item.htm?_u=g5bpko475d4&id=605447137649
 
-![](https://spire.imdo.co/images/2005/yolo-camera.jpg)
+![](http://jario.ren/images/2005/yolo-camera.jpg)
 
 #### 相机标定
 
@@ -682,22 +682,22 @@ rosrun camera_calibration cameracalibrator.py --size 8x6 --square 0.0245 image:=
 
 * 其中：size为标点板尺寸，square为每个方格宽度(m)，image:=相机话题
 
-* 棋盘格标定板下载地址：[Chessboard](https://spire.imdo.co/images/2005/qipangebiaoding.jpg)
+* 棋盘格标定板下载地址：[Chessboard](http://jario.ren/images/2005/qipangebiaoding.jpg)
 
 * 将得到的参数写入如下文件(有关目标尺度的预定义也在这个文件中)：`Prometheus/Modules/object_detection/config/camera_param.yaml`，例如参数如下：
 
-![](https://spire.imdo.co/images/2005/camera-calib-example.png)
+![](http://jario.ren/images/2005/camera-calib-example.png)
 
 * 标定板样张如下
 
-![](https://spire.imdo.co/images/2005/chessboard.jpg)
+![](http://jario.ren/images/2005/chessboard.jpg)
 
 
 #### 目标距离估计误差
 
 * 以行人检测为例，结果如下，在`Prometheus/Modules/object_detection/config/camera_param.yaml`设置行人高度`yolo_det_person_height`为1.7m，并以此估计相机到目标的距离
 
-![](https://spire.imdo.co/images/2005/YOLOv4-depth-err.jpg)
+![](http://jario.ren/images/2005/YOLOv4-depth-err.jpg)
 
 * 对于行人，90度视场角的相机，检测范围在1-20m，测距误差大概为距离的百分之6。
 
