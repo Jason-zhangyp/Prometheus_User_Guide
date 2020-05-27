@@ -95,7 +95,7 @@ catkin build maplab
 
    
 
-2. 编译opencv3_catkin遇到问题~/maplab_ws/build/opencv3_catkin/opencv3_src/cmake/OpenCVCompilerOptions.cmake报以下错误：
+2. 编译opencv3_catkin遇到问题`~/maplab_ws/build/opencv3_catkin/opencv3_src/cmake/OpenCVCompilerOptions.cmake`报以下错误：
 
    ```
    A duplicate ELSE command was found inside an IF block.
@@ -104,3 +104,46 @@ catkin build maplab
    在OpenCVCompilerOptions.cmake文件中注释掉报错的对应行即可。
 
 3. 遇到brisk-detector源码问题：解决方法参照https://github.com/ethz-asl/ethzasl_brisk/pull/109，在brisk-feature-detector.cc中加入包含#include <functional>
+
+## maplab运行
+
+本部分介绍两种方法运行ROVIOLI进行建图，分别是使用rosbag和rostopic；然后运行了定位模式下的ROVIOLI，即加载建好的地图进行定位的方式。
+
+- 需要的配置文件：
+
+  相机标定文文件，[文件样式](https://github.com/ethz-asl/maplab/blob/master/applications/rovioli/share/ncamera-euroc.yaml)
+
+  IMU参数-maplab，[文件样式](https://github.com/ethz-asl/maplab/blob/master/applications/rovioli/share/imu-adis16488.yaml)
+
+  IMU参数-rovio，[文件样式](https://github.com/ethz-asl/maplab/blob/master/applications/rovioli/share/imu-sigmas-rovio.yaml)
+
+  Rovio标定文件，[文件样式](https://github.com/ethz-asl/maplab/blob/master/applications/rovioli/share/rovio_default_config.info)
+
+  默认的配置文件路径为`maplab_ws/src/maplab/applications/rovioli/share`
+
+- 从rosbag中建图：
+
+  首先从Euros[数据集](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets)中下载rosbag，然后运行命令
+
+  ```
+  # Make sure that your maplab workspace is sourced!
+  source ~/maplab_ws/devel/setup.bash
+  roscore&
+  rosrun rovioli tutorial_euroc save_folder MH_01_easy.bag
+  ```
+
+  其中，运行脚本路径为：`maplab_ws/src/maplab/applications/rovioli/scripts/tutorials`
+
+  `/tutorial_euroc`，包含配置文件的路径和运行模式的选择等。 `save_folder` 为生成地图的保存路径，`MH_01_easy.bag`为rosbag的保存路径。
+
+  运行效果如下图：[![tAy7Je.md.png](https://s1.ax1x.com/2020/05/27/tAy7Je.md.png)](https://imgchr.com/i/tAy7Je)
+
+  [![tAyveP.md.png](https://s1.ax1x.com/2020/05/27/tAyveP.md.png)](https://imgchr.com/i/tAyveP)
+
+  地图保存在相应的路径下：
+
+  [![tA6Jw6.png](https://s1.ax1x.com/2020/05/27/tA6Jw6.png)](https://imgchr.com/i/tA6Jw6)
+
+- 从rostopic中建图：
+
+- 定位模式下运行ROVIOLI：
