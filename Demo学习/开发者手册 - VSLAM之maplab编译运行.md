@@ -189,3 +189,54 @@ catkin build maplab
   结束运行后同样会对地图进行保存
 
 - 定位模式下运行ROVIOLI：
+
+  定位模式会大大提高定位的精度，降低轨迹估计的漂移。和VIO模式一样，定位模式同样需要三样标定文件(camera, IMU maplab and IMU rovio)，另外，还需要一个经过优化过的之前生成的VI map。
+
+  产生地图的方式有两种，一种是使用maplab console的方式[手动优化地图](https://github.com/ethz-asl/maplab/wiki/Preparing-a-single-session-map)，另一种是在VIO模式运行rovioli时便将`--optimize_map_to_localization_map`设置为true，这样rovioli运行结束后便会生成一张优化后的地图。
+
+  可以选择rosbag运行定位模式，参照[官方教程](https://github.com/ethz-asl/maplab/wiki/Running-ROVIOLI-in-Localization-mode)，这里不作介绍了，下面主要介绍运行小觅相机使用rostopic的方式。
+
+  运行以下脚本：
+
+  ```
+  LOCALIZATION_MAP_INPUT=$1
+  LOCALIZATION_MAP_OUTPUT=$2
+  NCAMERA_CALIBRATION="$ROVIO_CONFIG_DIR../mynteye/ncameras_pin_equ.yaml"
+  IMU_PARAMETERS_MAPLAB="$ROVIO_CONFIG_DIR../mynteye/imu-icm20602.yaml"
+  IMU_PARAMETERS_ROVIO="$ROVIO_CONFIG_DIR../mynteye/imu-sigmas-rovio.yaml"
+  REST=$@
+  
+  rosrun rovioli rovioli \
+    --alsologtostderr=1 \
+    --v=2 \
+    --ncamera_calibration=$NCAMERA_CALIBRATION  \
+    --imu_parameters_maplab=$IMU_PARAMETERS_MAPLAB \
+    --imu_parameters_rovio=$IMU_PARAMETERS_ROVIO \
+    --publish_debug_markers  \
+    --datasource_type="rostopic" \
+    --optimize_map_to_localization_map=false \
+    --vio_localization_map_folder=$LOCALIZATION_MAP_INPUT \
+    --save_map_folder=$LOCALIZATION_MAP_OUTPUT \
+    --map_builder_save_image_as_resources=false \
+    --datasource_rosbag=$ROSBAG $REST
+    --rovio_enable_frame_visualization \
+  ```
+
+  运行完成后会保存定位地图，启动小觅相机，然后启动rovioli：
+
+  ```
+  source ~/maplab_ws/devel/setup.bash
+  roscore&
+  rosrun rovioli tutorial_mynt_live_stereo_pinhole_equ_loc save_folder_loc_localization save_map_with_localization
+  ```
+
+  其中`save_folder_loc_localization` 为保存的定位地图路径，运行时选择加载。运行的效果如下所示，相比于VIO模式下的话题，在定位模式下的话题包含更多的关于定位信息的话题：
+
+  - `/loopclosure_database`: Point cloud of all landmarks in the loop closure database.
+
+  - `/loop_closures`: Lines connecting the current active vertex with all landmarks that have been used for the localization.
+  - `/loopclosure_inliers`: Point cloud with all landmarks that have been used for the last successful localization.
+  - `/debug_T_G_I_raw_localization`: Red points indicating the vertex positions where a successful localization occurred.
+
+  [![teV8gA.png](https://s1.ax1x.com/2020/05/28/teV8gA.png)](https://imgchr.com/i/teV8gA)
+
