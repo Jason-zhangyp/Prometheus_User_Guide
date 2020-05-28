@@ -146,4 +146,46 @@ catkin build maplab
 
 - 从rostopic中建图：
 
+  使用小觅相机(S1030)作为传感器，首先需要将相机kalibr标定结果转换为maplab的配置文件的格式。从相机标定[文件](https://github.com/ethz-asl/maplab/blob/master/applications/rovioli/share/ncamera-euroc.yaml)中可知，除了相机的内参和畸变系数以外，还有相机坐标系到机体坐标系的外参转换矩阵T_B_C。由kalibr的标定结果可以获得`T_ic:  (cam0 to imu0)`即相机到IMU坐标系的转换，此处机体系和IMU系认为重合，故可在maplab的外参配置文件中使用该矩阵。
+
+  使用以下脚本启动：
+
+  ```
+  LOCALIZATION_MAP_OUTPUT=$1
+  NCAMERA_CALIBRATION="$ROVIO_CONFIG_DIR../mynteye/ncameras_pin_equ.yaml"
+  IMU_PARAMETERS_MAPLAB="$ROVIO_CONFIG_DIR../mynteye/imu-icm20602.yaml"
+  IMU_PARAMETERS_ROVIO="$ROVIO_CONFIG_DIR../mynteye/imu-sigmas-rovio.yaml"
+  REST=$@
+  
+  rosrun rovioli rovioli \
+    --alsologtostderr=1 \
+    --v=2 \
+    --ncamera_calibration=$NCAMERA_CALIBRATION  \
+    --imu_parameters_maplab=$IMU_PARAMETERS_MAPLAB \
+    --imu_parameters_rovio=$IMU_PARAMETERS_ROVIO \
+    --datasource_type="rostopic" \
+    --save_map_folder="$LOCALIZATION_MAP_OUTPUT" \
+    --map_builder_save_image_as_resources=true \
+    --rovio_enable_frame_visualization \
+    --optimize_map_to_localization_map=false $REST \
+  ```
+
+  该脚本保存位置为`~/maplab_ws/src/maplab/applications/rovioli/scripts/mynt/tutorial_`
+
+  `mynt_live_stereo_pinhole_equ`.
+
+  首先启动小觅相机，然后启动rovioli：
+
+  ```
+  roslaunch mynt_eye_ros_wrapper display.launch
+  source ~/maplab_ws/devel/setup.bash
+  rosrun rovioli tutorial_mynt_live_stereo_pinhole_equ mynt_stereo_live
+  ```
+
+  运行效果如下所示：
+
+  [![tZoD4H.png](https://s1.ax1x.com/2020/05/28/tZoD4H.png)](https://imgchr.com/i/tZoD4H)
+
+  结束运行后同样会对地图进行保存
+
 - 定位模式下运行ROVIOLI：
