@@ -1,4 +1,4 @@
-# 使用FastPlanner进行轨迹优化
+﻿# 使用FastPlanner进行轨迹优化
 
 ## 规划框架
 FastPlanner 由三部分组成，分别包括混合A*算法、Bspline轨迹生成和自动时间分配调整。规划流程的主要管理由plannning_fsm函数完成，负责调用规划算法，安全检查等。  
