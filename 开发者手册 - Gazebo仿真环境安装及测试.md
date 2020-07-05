@@ -75,7 +75,7 @@ Prometheus项目中的Gazebo仿真模块依赖PX4固件及sitl_gazebo包，因�
  - **安装octomap在rviz中的插件**
    
     ```
-    sudo apt-get install ros-kinetic-octomap-rviz-plugins
+    sudo apt-get install ros-melodic-octomap-rviz-plugins
     ```
 
 
