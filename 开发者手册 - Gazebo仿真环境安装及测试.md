@@ -26,6 +26,7 @@ Prometheus项目中的Gazebo仿真模块依赖PX4固件及sitl_gazebo包，因�
 - 若使用官方PX4仓库，Prometheus部分功能会失效，需要修改后方能使用（暂无详细说明，需自行解决）
 - 此处安装成功的标志为：PX4固件能够编译，并能运行其自带的Gazebo仿真，即运行`make px4_sitl gazebo`能够正常运行Gazebo仿真
 - 对PX4固件代码进行任何修改或者执行过`git pull`都需要重新运行`make px4_sitl gazebo`
+- github下载缓慢，加速方法：https://blog.csdn.net/qq_44621510/article/details/95251993
 
 **相关链接**：
 
