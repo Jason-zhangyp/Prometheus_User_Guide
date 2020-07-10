@@ -11,6 +11,7 @@ Prometheus项目中的Gazebo仿真模块依赖PX4固件及sitl_gazebo包，因�
 - **PX4编译环境安装**： [PX4手册 - getting_started](https://dev.px4.io/v1.10/en/setup/getting_started.html)
 
      - 建议使用ubuntu.sh脚本进行安装
+     - PS：现在gcc工具链可以直接通过  sudo apt install gcc-arm-none-eabi 安装！！
 
 - **下载PX4固件代码**，此处建议使用阿木实验室的Prometheus项目专用的PX4仓库：[Firmware_v110](https://github.com/amov-lab/Firmware_v110)，安装方法如下
 

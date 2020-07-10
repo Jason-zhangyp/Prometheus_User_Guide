@@ -593,7 +593,7 @@ wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/inst
 ```
 git clone https://github.com/amov-lab/Prometheus.git
 cd Prometheus
-./complie_detection.sh
+./compile_detection.sh
 echo "source (Path To Prometheus)/devel/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
